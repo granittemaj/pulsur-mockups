@@ -59,12 +59,18 @@
   animation:pf-drift 11s ease-in-out infinite; opacity:0}
 @keyframes pf-drift{0%{opacity:0; transform:translateY(14px)}12%,72%{opacity:1; transform:translateY(0)}100%{opacity:0; transform:translateY(-16px)}}
 
-/* lock-on ring */
-.pf-ring2{width:132px;height:132px;border-radius:50%; position:relative; display:grid; place-items:center; margin-bottom:6px}
-.pf-ring2::before{content:""; position:absolute; inset:0; border-radius:50%; border:1.5px solid rgba(43,160,206,.5); animation:pf-ping 2.6s ease-out infinite}
-.pf-ring2::after{content:""; position:absolute; inset:16px; border-radius:50%; border:1.5px solid rgba(143,219,53,.4); animation:pf-ping 2.6s ease-out infinite .7s}
-@keyframes pf-ping{0%{transform:scale(.7); opacity:0}35%{opacity:1}100%{transform:scale(1.25); opacity:0}}
-.pf-pin{font-size:34px; position:relative; z-index:1}
+/* map */
+.pf-map{width:100%; max-width:250px; height:auto; display:block; border-radius:14px;
+  border:1px solid var(--bd); background:#08121d; overflow:hidden}
+.pf-map .pr{transform-box:fill-box; transform-origin:center; animation:pf-ping 2.8s ease-out infinite}
+.pf-map .pr2{animation-delay:.9s}
+@keyframes pf-ping{0%{transform:scale(.45); opacity:0}30%{opacity:.9}100%{transform:scale(1.9); opacity:0}}
+.pf-map .rt{stroke-dasharray:3 4; animation:pf-flow 9s linear infinite}
+@keyframes pf-flow{to{stroke-dashoffset:-70}}
+/* branded big icon */
+.pf-bigicon{width:104px;height:104px;border-radius:28px; display:grid; place-items:center;
+  background:rgba(255,255,255,.045); border:1px solid var(--bd2); box-shadow:0 20px 50px -22px rgba(0,0,0,.9)}
+.pf-bigicon svg{width:46px;height:46px; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round}
 
 /* scanner */
 .pf-scan{width:150px;height:150px;border-radius:50%; position:relative; display:grid; place-items:center}
@@ -77,9 +83,6 @@
 .pf-num{font-family:'Sora',sans-serif; font-weight:800; font-size:62px; letter-spacing:-.04em; line-height:1;
   background:linear-gradient(100deg,#4ec6f0,#8fdb35); -webkit-background-clip:text; background-clip:text; color:transparent; font-variant-numeric:tabular-nums}
 
-/* envelope */
-.pf-env{width:104px;height:104px;border-radius:28px; display:grid; place-items:center; font-size:44px;
-  background:rgba(255,255,255,.05); border:1px solid var(--bd2); box-shadow:0 20px 50px -22px rgba(0,0,0,.9)}
 
 /* progress rail */
 .pf-rail{display:flex; flex-direction:column; gap:2px; margin-top:8px}
@@ -89,6 +92,7 @@
   border:1.5px solid var(--bd2); color:var(--ink3); background:rgba(255,255,255,.04); transition:.35s}
 .pf-rail .r.on .n{background:var(--soft); border-color:transparent; color:#0c1a27; box-shadow:0 0 0 5px rgba(43,160,206,.14)}
 .pf-rail .r.done .n{background:rgba(143,219,53,.18); border-color:rgba(143,219,53,.5); color:#9fe036}
+.pf-rail .n svg{width:12px;height:12px;display:block;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .pf-rail .l{font-size:12.5px; font-weight:500; color:var(--ink2)}
 .pf-rail .r.on .l{color:#fff; font-weight:600}
 
@@ -120,6 +124,8 @@
 .pf-h em{font-style:normal; background:var(--soft); -webkit-background-clip:text; background-clip:text; color:transparent}
 .pf-box .pf-lede{font-size:15px; color:var(--ink2); margin:14px 0 0; font-weight:300; max-width:52ch}
 .pf-fine{font-size:12.5px; color:var(--ink3); margin-top:14px; display:flex; align-items:center; gap:8px}
+.pf-fine svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pf-note svg{width:17px;height:17px;flex:none;margin-top:1px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 /* textarea */
 .pf-ta{width:100%; font:inherit; font-size:16.5px; color:var(--ink); background:rgba(255,255,255,.045);
@@ -128,27 +134,35 @@
 .pf-ta:focus{outline:none; border-color:#2ba0ce; background:rgba(255,255,255,.07); box-shadow:0 0 0 5px rgba(43,160,206,.15)}
 
 /* examples */
-.pf-exl{font-size:10.5px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--ink3); margin:26px 0 10px}
-.pf-ex{display:flex; flex-direction:column; gap:8px}
-.pf-ex button{text-align:left; width:100%; background:rgba(255,255,255,.035); border:1px solid var(--bd); color:var(--ink2);
-  font-family:inherit; font-size:14px; padding:13px 16px; border-radius:12px; cursor:pointer; transition:.2s; display:flex; align-items:center; gap:11px}
-.pf-ex button:hover{background:rgba(255,255,255,.075); border-color:#2ba0ce; color:var(--ink); transform:translateX(4px)}
-.pf-ex b{color:var(--ink)}
-.pf-ex .ar{margin-left:auto; color:#63c6ea; opacity:0; transform:translateX(-4px); transition:.2s}
-.pf-ex button:hover .ar{opacity:1; transform:none}
+.pf-exrow{display:flex; align-items:center; gap:12px; margin:30px 0 12px}
+.pf-exl{font-size:10.5px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--ink3); white-space:nowrap}
+.pf-exrow .ln{flex:1; height:1px; background:var(--bd)}
+.pf-ex{display:flex; flex-wrap:wrap; gap:8px}
+.pf-ex button{display:inline-flex; align-items:center; gap:8px; font-family:inherit; font-size:13px; font-weight:500;
+  color:var(--ink2); background:rgba(255,255,255,.045); border:1px solid var(--bd);
+  padding:9px 15px; border-radius:999px; cursor:pointer; transition:.2s}
+.pf-ex button:hover{color:#fff; background:rgba(43,160,206,.14); border-color:rgba(43,160,206,.6); transform:translateY(-2px)}
+.pf-ex button svg{width:14px; height:14px; flex:none; opacity:.75}
+.pf-ex button:hover svg{opacity:1; color:#63c6ea}
 
 /* buttons */
-.pf-btn{display:inline-flex; align-items:center; justify-content:center; gap:9px; font-family:inherit; font-weight:600; font-size:15px;
-  padding:15px 26px; border-radius:13px; border:1.5px solid transparent; cursor:pointer;
-  transition:transform .2s, box-shadow .2s, background .25s, border-color .2s; line-height:1}
-.pf-btn:active{transform:translateY(1px)}
-.pf-p{background:var(--grad); color:#fff; background-size:175% 175%; box-shadow:0 14px 34px -12px rgba(43,160,206,.6)}
-.pf-p:hover{transform:translateY(-2px); background-position:100% 0; box-shadow:0 20px 46px -12px rgba(43,160,206,.75)}
-.pf-g{background:rgba(255,255,255,.05); color:#63c6ea; border-color:var(--bd2)}
-.pf-g:hover{border-color:#2ba0ce; color:#e6f5fd; transform:translateY(-2px)}
-.pf-q{background:transparent; color:var(--ink3); padding:15px 6px}
-.pf-q:hover{color:var(--ink2)}
-.pf-act{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:28px}
+.pf-btn{display:inline-flex; align-items:center; justify-content:center; gap:9px; font-family:inherit; font-weight:600;
+  font-size:14.5px; letter-spacing:-.005em; height:48px; padding:0 22px; border-radius:12px;
+  border:1.5px solid transparent; cursor:pointer; white-space:nowrap;
+  transition:transform .18s, box-shadow .2s, background .22s, border-color .2s, color .2s; line-height:1}
+.pf-btn svg{width:15px; height:15px; flex:none}
+.pf-btn:active{transform:translateY(1px) scale(.995)}
+.pf-btn:focus-visible{outline:2px solid #4ec6f0; outline-offset:3px}
+/* primary */
+.pf-p{background:var(--grad); color:#fff; background-size:175% 175%; box-shadow:0 12px 30px -12px rgba(43,160,206,.65)}
+.pf-p:hover{transform:translateY(-2px); background-position:100% 0; box-shadow:0 18px 42px -12px rgba(43,160,206,.8)}
+/* secondary — real button, not a link */
+.pf-g{background:rgba(255,255,255,.06); color:var(--ink); border-color:var(--bd2)}
+.pf-g:hover{background:rgba(255,255,255,.1); border-color:rgba(43,160,206,.7); color:#fff; transform:translateY(-2px)}
+/* tertiary — quiet but still a target */
+.pf-q{background:transparent; color:var(--ink3); border-color:transparent; padding:0 14px}
+.pf-q:hover{color:var(--ink); background:rgba(255,255,255,.06)}
+.pf-act{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:28px}
 
 /* cards */
 .pf-card{background:rgba(255,255,255,.035); border:1px solid var(--bd); border-radius:18px; padding:22px; margin-top:22px}
@@ -208,7 +222,7 @@ textarea.pf-in{min-height:88px; resize:vertical; line-height:1.5}
   .pf-box{width:100vw; height:100vh; max-width:none; border-radius:0; border:0; grid-template-columns:1fr; grid-template-rows:auto minmax(0,1fr)}
   .pf-stage{padding:20px 22px; min-height:180px}
   .pf-well{min-height:110px}
-  .pf-vt{font-size:26px} .pf-num{font-size:46px}
+  .pf-vt{font-size:24px} .pf-num{font-size:42px} .pf-map{max-width:150px} .pf-bigicon{width:70px;height:70px;border-radius:20px} .pf-bigicon svg{width:32px;height:32px}
   .pf-rail{flex-direction:row; gap:6px; margin-top:6px}
   .pf-rail .l{display:none}
   .pf-rail .r{padding:0}
@@ -219,6 +233,6 @@ textarea.pf-in{min-height:88px; resize:vertical; line-height:1.5}
 }
 @media (prefers-reduced-motion:reduce){
   .pf-ov,.pf-box,.pf-v,.pf-scr.on > *{animation:none!important; opacity:1!important; transform:none!important}
-  .pf-scan::before,.pf-ring2::before,.pf-ring2::after,.pf-float q{animation:none!important}
+  .pf-scan::before,.pf-map .pr,.pf-map .rt,.pf-float q{animation:none!important}
   .pf-float q{opacity:1}
 }

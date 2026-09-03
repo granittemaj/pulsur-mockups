@@ -29,10 +29,63 @@
   var VIS={ask:'listen',analyzing:'scan',match:'city',nocity:'city',unavailable:'city',request:'globe','request-done':'done',
            nomatch:'globe','nomatch-done':'done',dataset:'data',contact:'secure',generating:'build',mailbox:'mail'};
 
+
+  /* ---- branded icon set (stroke, currentColor) ---- */
+  function ic(d,extra){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+d+(extra||'')+'</svg>'; }
+  var I = {
+    chat:  ic('<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.6 9.6 0 0 1-3-.5L4 21l1.4-4.2A8.2 8.2 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/>'),
+    globe: ic('<circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/>'),
+    ban:   ic('<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>'),
+    lock:  ic('<rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2"/><path d="M8 10.5V7.6a4 4 0 0 1 8 0v2.9"/>'),
+    shield:ic('<path d="M12 2.8l7.2 3v5.4c0 4.5-3 8.3-7.2 9.9-4.2-1.6-7.2-5.4-7.2-9.9V5.8z"/><path d="M9 12.2l2.1 2.1L15.4 10"/>'),
+    mail:  ic('<rect x="2.8" y="5" width="18.4" height="14" rx="2.4"/><path d="M3.4 6.6l7.5 5.6a2 2 0 0 0 2.2 0l7.5-5.6"/>'),
+    alert: ic('<path d="M10.3 3.9L2.6 17.2A2 2 0 0 0 4.3 20.2h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.3v4.2M12 17h.01"/>'),
+    info:  ic('<circle cx="12" cy="12" r="9"/><path d="M12 11.2v5M12 7.9h.01"/>'),
+    check: ic('<path d="M20 6L9 17l-5-5"/>'),
+    pin:   ic('<path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>')
+  };
+  var IG = { /* gradient-stroked, for the big stage icons */
+    globe: '<svg viewBox="0 0 24 24" fill="none" stroke="url(#pfGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg>',
+    shield:'<svg viewBox="0 0 24 24" fill="none" stroke="url(#pfGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l7.2 3v5.4c0 4.5-3 8.3-7.2 9.9-4.2-1.6-7.2-5.4-7.2-9.9V5.8z"/><path d="M9 12.2l2.1 2.1L15.4 10"/></svg>',
+    mail:  '<svg viewBox="0 0 24 24" fill="none" stroke="url(#pfGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.8" y="5" width="18.4" height="14" rx="2.4"/><path d="M3.4 6.6l7.5 5.6a2 2 0 0 0 2.2 0l7.5-5.6"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="url(#pfGrad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
+  };
+
+  /* ---- stylised transit map for the "city identified" moment ---- */
+  var MAP = '<svg class="pf-map" viewBox="0 0 250 172" role="img" aria-label="City map">'
+   + '<defs><radialGradient id="pfMg" cx="50%" cy="50%"><stop offset="0" stop-color="#7ec827" stop-opacity=".30"/><stop offset="1" stop-color="#7ec827" stop-opacity="0"/></radialGradient>'
+   + '<linearGradient id="pfMl" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2ba0ce"/><stop offset="1" stop-color="#8fdb35"/></linearGradient></defs>'
+   /* blocks */
+   + '<g fill="rgba(255,255,255,.028)">'
+   +  '<rect x="14" y="16" width="52" height="34" rx="3"/><rect x="76" y="16" width="70" height="34" rx="3"/><rect x="156" y="16" width="56" height="34" rx="3"/>'
+   +  '<rect x="14" y="60" width="52" height="44" rx="3"/><rect x="156" y="60" width="56" height="44" rx="3"/>'
+   +  '<rect x="14" y="114" width="80" height="40" rx="3"/><rect x="104" y="114" width="58" height="40" rx="3"/><rect x="172" y="114" width="40" height="40" rx="3"/>'
+   + '</g>'
+   /* streets */
+   + '<g stroke="rgba(255,255,255,.075)" stroke-width="1">'
+   +  '<path d="M0 55h250M0 108h250M70 0v172M150 0v172"/>'
+   + '</g>'
+   /* river */
+   + '<path d="M0 140 C46 128 74 152 118 138 S196 116 250 128" stroke="rgba(43,160,206,.28)" stroke-width="8" fill="none" stroke-linecap="round"/>'
+   /* transit lines */
+   + '<polyline class="rt" points="18,150 62,108 125,86 178,55 236,44" fill="none" stroke="url(#pfMl)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'
+   + '<polyline points="34,22 78,58 125,86 158,132 210,150" fill="none" stroke="#2ba0ce" stroke-width="1.9" opacity=".5" stroke-linecap="round" stroke-linejoin="round"/>'
+   /* stations */
+   + '<g fill="#08121d" stroke="#8fdb35" stroke-width="1.5">'
+   +  '<circle cx="62" cy="108" r="3.2"/><circle cx="178" cy="55" r="3.2"/><circle cx="78" cy="58" r="2.8"/><circle cx="158" cy="132" r="2.8"/>'
+   + '</g>'
+   /* locate marker */
+   + '<circle cx="125" cy="86" r="44" fill="url(#pfMg)"/>'
+   + '<circle class="pr" cx="125" cy="86" r="13" fill="none" stroke="rgba(143,219,53,.75)" stroke-width="1.5"/>'
+   + '<circle class="pr pr2" cx="125" cy="86" r="13" fill="none" stroke="rgba(43,160,206,.65)" stroke-width="1.5"/>'
+   + '<circle cx="125" cy="86" r="7" fill="#8fdb35" stroke="#08121d" stroke-width="2.4"/>'
+   + '</svg>';
+
   var S={city:'Montreal',q:'',mode:'Public transit',topic:'Reliability',ev:1846,email:'you@organization.com'};
   var stack=[],cur='ask',root=null,reduce=false;
 
   var H=''
+  +'<svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs><linearGradient id="pfGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2ba0ce"/><stop offset="1" stop-color="#8fdb35"/></linearGradient></defs></svg>'
   +'<div class="pf-box" role="dialog" aria-modal="true" aria-label="Get your free pulsur snapshot">'
 
   /* ---------- STAGE ---------- */
@@ -56,27 +109,27 @@
   +     '<div class="pf-vk" style="margin-top:20px">Analysing</div>'
   +     '<div class="pf-vs" data-pf="scantx">Reading your question…</div></div>'
   +   '<div class="pf-v" data-v="city">'
-  +     '<div class="pf-ring2"><span class="pf-pin">📍</span></div>'
-  +     '<div class="pf-vk" data-pf="citykey">City identified</div>'
+  +     MAP
+  +     '<div class="pf-vk" style="margin-top:16px" data-pf="citykey">City identified</div>'
   +     '<div class="pf-vt grad" data-pf="cityname">Montreal</div>'
   +     '<div class="pf-vs" data-pf="citysub">Public transit · Reliability</div></div>'
-  +   '<div class="pf-v" data-v="globe"><div class="pf-ring2"><span class="pf-pin">🌍</span></div>'
+  +   '<div class="pf-v" data-v="globe"><div class="pf-bigicon">'+IG.globe+'</div>'
   +     '<div class="pf-vk">Coverage</div><div class="pf-vt" style="font-size:26px">Growing</div>'
   +     '<div class="pf-vs">Demand decides which city we add next</div></div>'
   +   '<div class="pf-v" data-v="data">'
   +     '<div class="pf-vk">Evidence available</div>'
   +     '<div class="pf-num" data-pf="bignum">0</div>'
   +     '<div class="pf-vs">relevant public posts &amp; comments<br>Jan 2025 – Jul 2026</div></div>'
-  +   '<div class="pf-v" data-v="secure"><div class="pf-ring2"><span class="pf-pin">🔐</span></div>'
+  +   '<div class="pf-v" data-v="secure"><div class="pf-bigicon">'+IG.shield+'</div>'
   +     '<div class="pf-vk">Almost ready</div><div class="pf-vt" style="font-size:26px">One per email</div>'
   +     '<div class="pf-vs">Your private link stays valid for 14 days</div></div>'
   +   '<div class="pf-v" data-v="build"><div class="pf-scan"><i></i></div>'
   +     '<div class="pf-vk" style="margin-top:20px">Building</div>'
   +     '<div class="pf-vs" data-pf="buildtx">Collecting conversations…</div></div>'
-  +   '<div class="pf-v" data-v="mail"><div class="pf-env">📬</div>'
+  +   '<div class="pf-v" data-v="mail"><div class="pf-bigicon">'+IG.mail+'</div>'
   +     '<div class="pf-vk" style="margin-top:18px">Sent</div>'
   +     '<div class="pf-vt" style="font-size:25px">Check your inbox</div></div>'
-  +   '<div class="pf-v" data-v="done"><div class="pf-ok" style="width:96px;height:96px"><svg viewBox="0 0 24 24" style="width:42px;height:42px"><path d="M20 6L9 17l-5-5"/></svg></div>'
+  +   '<div class="pf-v" data-v="done"><div class="pf-bigicon">'+IG.check+'</div>'
   +     '<div class="pf-vk" style="margin-top:18px">Received</div>'
   +     '<div class="pf-vs">We\'ll be in touch</div></div>'
   + '</div>'
@@ -98,13 +151,13 @@
   + '<h2 class="pf-h">What do you want to know about <em>your city?</em></h2>'
   + '<p class="pf-lede">Ask in plain language. pulsur finds the city and shows you exactly what it can analyse.</p>'
   + '<textarea class="pf-ta" data-pf="q" placeholder="e.g. Why are people frustrated with buses in Montreal?"></textarea>'
-  + '<div class="pf-fine">🔒 Saved so we can improve coverage — no account needed.</div>'
+  + '<div class="pf-fine">'+I.lock+' Saved so we can improve coverage — no account needed.</div>'
   + '<div class="pf-act"><button class="pf-btn pf-p" data-pf="analyze">Analyse this →</button></div>'
-  + '<div class="pf-exl">Or try one of these</div>'
+  + '<div class="pf-exrow"><span class="pf-exl">Try one</span><span class="ln"></span></div>'
   + '<div class="pf-ex">'
-  +   '<button data-pf="ex" data-v="Why are people frustrated with buses in Montreal?">💬 Frustration with buses in <b>Montreal</b><span class="ar">→</span></button>'
-  +   '<button data-pf="ex" data-v="What do people think about transit in the U.S.?">🌎 Transit sentiment across <b>the U.S.</b><span class="ar">→</span></button>'
-  +   '<button data-pf="ex" data-v="Why are people frustrated with transit in Chicago?">🚫 Transit in <b>Chicago</b> (not covered)<span class="ar">→</span></button>'
+  +   '<button data-pf="ex" data-v="Why are people frustrated with buses in Montreal?">'+I.chat+'Buses in Montreal</button>'
+  +   '<button data-pf="ex" data-v="What do people think about transit in the U.S.?">'+I.globe+'Transit in the U.S.</button>'
+  +   '<button data-pf="ex" data-v="Why are people frustrated with transit in Chicago?">'+I.ban+'Chicago</button>'
   + '</div>'
   +'</section>'
 
@@ -125,7 +178,7 @@
   +'<section class="pf-scr" data-s="nocity">'
   + '<div class="pf-eyebrow">Narrow it down</div>'
   + '<h2 class="pf-h">Which city should we look at?</h2>'
-  + '<div class="pf-note pf-info" style="margin-top:20px">🌐 <div>pulsur gives <b>city-level</b> analyses. Free snapshots cover ten cities today.</div></div>'
+  + '<div class="pf-note pf-info" style="margin-top:20px">'+I.info+'<div>pulsur gives <b>city-level</b> analyses. Free snapshots cover ten cities today.</div></div>'
   + '<div class="pf-cities">'+PILLS+'</div>'
   + '<div class="pf-ref" style="margin-top:20px"><div class="k">Suggested start</div><div class="t">'+SF[1]+'</div></div>'
   + '<div class="pf-act"><button class="pf-btn pf-p" data-pf="sf">Start with San Francisco →</button>'
@@ -135,7 +188,7 @@
   +'<section class="pf-scr" data-s="unavailable">'
   + '<div class="pf-eyebrow">Not covered yet</div>'
   + '<h2 class="pf-h"><span data-pf="ucity">Chicago</span> isn\'t live yet.</h2>'
-  + '<div class="pf-note pf-warn" style="margin-top:20px">⚠ <div>We\'re expanding — and <b>demand decides</b> what we add next.</div></div>'
+  + '<div class="pf-note pf-warn" style="margin-top:20px">'+I.alert+'<div>We\'re expanding — and <b>demand decides</b> what we add next.</div></div>'
   + '<div class="pf-cities">'+PILLS+'</div>'
   + '<div class="pf-ref" style="margin-top:20px"><div class="k">Closest free analysis</div><div class="t">'+SF[1]+'</div></div>'
   + '<div class="pf-act"><button class="pf-btn pf-p" data-pf="sf">Use San Francisco →</button>'
@@ -251,7 +304,7 @@
     for(var i=0;i<rs.length;i++){
       rs[i].classList.toggle('on', i===n);
       rs[i].classList.toggle('done', i<n);
-      rs[i].querySelector('.n').innerHTML = (i<n) ? '&#10003;' : (i+1);
+      rs[i].querySelector('.n').innerHTML = (i<n) ? I.check : (i+1);
     }
   }
   function count(node,to){
