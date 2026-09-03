@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulsur — Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#2ba0ce; --teal-dark:#63c6ea; --green:#8fdb35; --green-dark:#9fe036;
+  --ink:#eef5fb; --ink2:#aebfce; --ink3:#7d95a8;
+  --bg2:#080f18; --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.16);
+  --grad:linear-gradient(125deg,#155f80,#1a7fa8 38%,#2ba0ce 64%,#7ec827 120%);
+  --grad-soft:linear-gradient(120deg,#2ba0ce,#7ec827);
+  --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));
+  --sh-2:0 18px 44px -26px rgba(0,0,0,.82);
+  --sh-3:0 30px 66px -30px rgba(0,0,0,.9);
+}
+*{box-sizing:border-box}
+body{margin:0; font-family:'Inter',sans-serif; color:var(--ink2); background:var(--bg2); -webkit-font-smoothing:antialiased; line-height:1.6}
+body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(1100px 720px at 100% -12%, rgba(43,160,206,.16), transparent 56%), radial-gradient(950px 720px at -10% 112%, rgba(143,219,53,.09), transparent 56%);}
+.wrap{position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 26px}
+h1,h2,h3{font-family:'Sora',sans-serif; margin:0; color:var(--ink); line-height:1.2}
+a{text-decoration:none; color:inherit}
+.eyebrow{font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--green-dark); display:inline-flex; align-items:center; gap:10px}
+.eyebrow::before{content:""; width:26px;height:2px; background:var(--green); border-radius:2px}
+
+header{padding:64px 0 30px}
+.brand{display:flex; align-items:center; gap:10px; margin-bottom:26px}
+.brand img{height:30px; width:auto; display:block}
+.brand .wm{font-family:'Sora'; font-weight:800; font-size:24px; letter-spacing:-.02em; color:var(--ink)}
+.brand .wm b{background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.brand .pd{width:8px;height:8px;border-radius:50%; background:var(--green); box-shadow:0 0 0 4px rgba(143,219,53,.16)}
+header h1{font-size:clamp(30px,5vw,44px); font-weight:800; letter-spacing:-.02em; margin:14px 0 0; max-width:20ch}
+header h1 em{font-style:normal; background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+header p{font-size:17px; color:var(--ink2); margin:16px 0 0; max-width:62ch; font-weight:300}
+
+section{padding:30px 0 0}
+.sechead{display:flex; align-items:baseline; gap:12px; margin:26px 0 16px}
+.sechead h2{font-size:19px; font-weight:700}
+.sechead .rule{flex:1; height:1px; background:var(--border)}
+.sechead .cnt{font-size:12px; color:var(--ink3)}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px}
+.card{display:block; position:relative; overflow:hidden; border:1px solid var(--border); border-radius:16px; background:var(--card); box-shadow:var(--sh-2); padding:24px; transition:transform .22s, box-shadow .22s, border-color .22s}
+.card:hover{transform:translateY(-4px); box-shadow:var(--sh-3), 0 0 0 1px rgba(43,160,206,.3)}
+.card .top{display:flex; align-items:center; gap:10px; margin-bottom:14px}
+.card .ic{width:38px;height:38px;border-radius:11px; display:grid; place-items:center; background:rgba(43,160,206,.14); font-size:18px}
+.card .badge{margin-left:auto; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:4px 9px; border-radius:999px}
+.badge.dark{background:rgba(43,160,206,.16); color:#83d2f0}
+.badge.light{background:rgba(255,255,255,.07); color:var(--ink3)}
+.badge.new{background:var(--grad-soft); color:#0c1a27}
+.card h3{font-size:17px; margin-bottom:6px}
+.card p{font-size:14px; color:var(--ink3); margin:0}
+.card .go{display:inline-flex; align-items:center; gap:7px; margin-top:16px; font-size:13.5px; font-weight:600; color:var(--teal-dark)}
+
+.note{font-size:13.5px; color:var(--ink2); background:rgba(255,255,255,.03); border:1px solid var(--border); border-left:3px solid var(--teal); padding:15px 18px; border-radius:0 10px 10px 0; margin-top:28px}
+.note b{color:var(--ink)}
+footer{padding:44px 0 70px; margin-top:34px; border-top:1px solid var(--border); color:var(--ink3); font-size:13px}
+@media (max-width:620px){ .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <img src="assets/pulsur-logo.png" alt="pulsur" onerror="this.remove()">
+      <span class="pd"></span>
+    </div>
+    <div class="eyebrow">Mockups &amp; concepts</div>
+    <h1>pulsur &mdash; <em>the intelligence layer</em> for transit.</h1>
+    <p>Product design mockups for <b style="color:var(--ink2)">pulsur</b>, the AI insight product of Urban Innovate. Dark, high-tech product surfaces &mdash; while the Urban Innovate brand stays light.</p>
+  </header>
+
+  <section>
+    <div class="sechead"><h2>Product (v2 &mdash; dark)</h2><span class="rule"></span><span class="cnt">3 screens</span></div>
+    <div class="grid">
+      <a class="card" href="pulsur-dashboard-v2.html">
+        <div class="top"><span class="ic">◧</span><span class="badge dark">dark + light</span></div>
+        <h3>Dashboard</h3>
+        <p>The live product: KPI row, intelligence panel, AI insight, sentiment gauge, segments and a live signals feed.</p>
+        <span class="go">Open mockup →</span>
+      </a>
+      <a class="card" href="pulsur-analytics-v2.html">
+        <div class="top"><span class="ic">◔</span><span class="badge dark">dark + light</span></div>
+        <h3>Analytics showcase</h3>
+        <p>The full chart gallery — trends, donuts, heatmaps, scatter, radar, calendar activity and top phrases.</p>
+        <span class="go">Open mockup →</span>
+      </a>
+      <a class="card" href="pulsur-design-system-v2.html">
+        <div class="top"><span class="ic">◈</span><span class="badge dark">dark + light</span></div>
+        <h3>Design system</h3>
+        <p>Living style guide: colour, type, spacing, elevation, components and patterns.</p>
+        <span class="go">Open mockup →</span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Freemium concept</h2><span class="rule"></span><span class="cnt">2 pages</span></div>
+    <div class="grid">
+      <a class="card" href="pulsur-freemium-v2.html">
+        <div class="top"><span class="ic">🔒</span><span class="badge new">new</span></div>
+        <h3>Free tier &mdash; one Pulse Report</h3>
+        <p>The free user's screen: one unlocked report, live intelligence blurred behind frosted glass, and the upgrade path.</p>
+        <span class="go">Open mockup →</span>
+      </a>
+      <a class="card" href="pulsur-freemium-concept.html">
+        <div class="top"><span class="ic">📋</span><span class="badge new">new</span></div>
+        <h3>Concept &mdash; for the team</h3>
+        <p>The idea explained for CEO and devs: the 5-step flow, free vs locked, the rules, what we build, and metrics.</p>
+        <span class="go">Read concept →</span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Original (v1 &mdash; light)</h2><span class="rule"></span><span class="cnt">3 screens</span></div>
+    <div class="grid">
+      <a class="card" href="pulsur-dashboard.html">
+        <div class="top"><span class="ic">◧</span><span class="badge light">light</span></div>
+        <h3>Dashboard</h3><p>The original light-themed dashboard.</p>
+        <span class="go">Open mockup →</span>
+      </a>
+      <a class="card" href="pulsur-analytics.html">
+        <div class="top"><span class="ic">◔</span><span class="badge light">light</span></div>
+        <h3>Analytics showcase</h3><p>The original light-themed chart gallery.</p>
+        <span class="go">Open mockup →</span>
+      </a>
+      <a class="card" href="pulsur-design-system.html">
+        <div class="top"><span class="ic">◈</span><span class="badge light">light</span></div>
+        <h3>Design system</h3><p>The original light-themed style guide.</p>
+        <span class="go">Open mockup →</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="note">💡 <b>Theme switch:</b> the three v2 product screens open in <b>dark</b> by default and carry a dark/light toggle (top-right). Your choice is remembered across all of them.</div>
+
+  <footer>
+    <b style="color:var(--ink2)">pulsur</b> &mdash; product of Urban Innovate. Mockups only; no real data.
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulsur — Dashboard mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#1a7fa8; --teal-bright:#2ba0ce; --teal-dark:#155f80;
+  --green:#7ec827; --green-dark:#5e9a1a;
+  --dark:#0c1d2b; --ink:#102234; --ink2:#3c5267; --ink3:#7088a0;
+  --bg:#ffffff; --bg2:#f5f8fa; --bg3:#eef4f8;
+  --teal-tint:#e8f3f9; --green-tint:#f1f9e3;
+  --border:#e2ebf1; --border2:#d4e1ea;
+  --pulse-grad:linear-gradient(125deg,#155f80 0%,#1a7fa8 38%,#2ba0ce 64%,#7ec827 120%);
+  --pulse-grad-soft:linear-gradient(125deg,#1a7fa8,#7ec827);
+  --success:#5e9a1a; --warning:#c98a12; --danger:#d8453f;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px;
+  --sh-1:0 1px 2px rgba(16,34,52,.06);
+  --sh-2:0 10px 30px -18px rgba(16,34,52,.22);
+  --sh-3:0 26px 60px -30px rgba(16,34,52,.30);
+}
+*{box-sizing:border-box}
+body{margin:0; font-family:'Inter',sans-serif; color:var(--ink); background:var(--bg2); -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Sora',sans-serif; margin:0; color:var(--ink); line-height:1.2}
+a{text-decoration:none; color:inherit}
+
+.app{display:grid; grid-template-columns:248px 1fr; min-height:100vh}
+
+/* ===== Sidebar (light, brand-accented) ===== */
+.sb{background:#fff; border-right:1px solid var(--border); padding:22px 16px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh}
+.sb .logo{display:flex; align-items:center; gap:9px; padding:4px 10px 22px}
+.sb .logo.has-logo{background:var(--dark); padding:10px 12px; border-radius:12px; width:max-content; max-width:100%; margin:0 0 14px}
+.sb .logo .wm{font-family:'Sora'; font-weight:800; font-size:23px; letter-spacing:-.02em}
+.sb .logo .wm b{background:var(--pulse-grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.sb .logo .pd{width:8px;height:8px;border-radius:50%; background:var(--green); box-shadow:0 0 0 4px rgba(126,200,39,.16); animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(126,200,39,.16)}50%{box-shadow:0 0 0 7px rgba(126,200,39,.03)}}
+.sb .grp{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3); font-weight:700; padding:14px 12px 8px}
+.sb a.nav{display:flex; align-items:center; gap:11px; padding:10px 12px; border-radius:10px; color:var(--ink2); font-size:14px; font-weight:500; transition:.16s}
+.sb a.nav svg{width:18px;height:18px; stroke:var(--ink3); fill:none; stroke-width:2}
+.sb a.nav:hover{background:var(--bg2); color:var(--ink)}
+.sb a.nav.on{background:var(--teal-tint); color:var(--teal-dark)}
+.sb a.nav.on svg{stroke:var(--teal)}
+.sb .spacer{flex:1}
+.sb .me{display:flex; align-items:center; gap:10px; padding:10px; border-radius:12px; border:1px solid var(--border)}
+.sb .me .av{width:34px;height:34px;border-radius:50%; background:var(--pulse-grad); flex:none}
+.sb .me .nm{font-size:13px; font-weight:600} .sb .me .rl{font-size:11.5px; color:var(--ink3)}
+
+/* ===== Workspace ===== */
+.work{display:flex; flex-direction:column; min-width:0}
+.top{position:sticky; top:0; z-index:5; background:rgba(255,255,255,.85); backdrop-filter:blur(8px); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:14px; padding:13px 28px}
+.top .crumb{font-size:13px; color:var(--ink3)} .top .crumb b{color:var(--ink); font-weight:600}
+.search{margin-left:18px; flex:1; max-width:380px; position:relative}
+.search input{width:100%; font:inherit; font-size:14px; padding:9px 14px 9px 36px; border:1.5px solid var(--border2); border-radius:10px; background:var(--bg2)}
+.search input:focus{outline:none; border-color:var(--teal); background:#fff; box-shadow:0 0 0 4px rgba(26,127,168,.12)}
+.search svg{position:absolute; left:11px; top:9px; width:17px;height:17px; stroke:var(--ink3); fill:none; stroke-width:2}
+.icbtn{width:38px;height:38px; border:1px solid var(--border); background:#fff; border-radius:10px; display:grid; place-items:center; cursor:pointer; position:relative}
+.icbtn svg{width:18px;height:18px;stroke:var(--ink2);fill:none;stroke-width:2}
+.icbtn .badge-dot{position:absolute; top:8px; right:9px; width:7px;height:7px;border-radius:50%; background:var(--danger); border:2px solid #fff}
+.avatar{width:38px;height:38px;border-radius:50%; background:var(--pulse-grad)}
+
+.btn{display:inline-flex; align-items:center; gap:8px; white-space:nowrap; font-family:inherit; font-weight:600; font-size:14px; padding:10px 18px; border-radius:10px; border:1.5px solid transparent; cursor:pointer; transition:transform .18s, box-shadow .18s, background .18s}
+.btn:active{transform:translateY(1px)}
+.btn-pulse{background:var(--pulse-grad); color:#fff; background-size:160% 160%; box-shadow:0 12px 30px -12px rgba(26,127,168,.55)}
+.btn-pulse:hover{transform:translateY(-2px); background-position:100% 0}
+.btn-ghost{background:#fff; color:var(--teal-dark); border-color:var(--border2)}
+.btn-ghost:hover{border-color:var(--teal); color:var(--teal)}
+.btn-sm{padding:8px 14px; font-size:13px}
+
+.content{padding:26px 28px 48px; max-width:1320px; width:100%}
+.pagehead{display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:22px}
+.pagehead h1{font-size:27px; font-weight:700; letter-spacing:-.01em}
+.pagehead .sub{color:var(--ink3); font-size:14px; margin-top:4px}
+.pagehead .right{margin-left:auto; display:flex; gap:10px; align-items:center}
+.pill{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--ink2); background:#fff; border:1px solid var(--border); padding:9px 14px; border-radius:10px}
+
+/* grids */
+.grid{display:grid; gap:18px}
+.kpis{grid-template-columns:repeat(4,1fr)}
+.cols{grid-template-columns:2fr 1fr; align-items:start}
+.cols2{grid-template-columns:2fr 1fr; align-items:start}
+
+.card{background:#fff; border:1px solid var(--border); border-radius:var(--r-lg); padding:22px; box-shadow:var(--sh-2)}
+.card .ch{display:flex; align-items:center; gap:10px; margin-bottom:16px}
+.card .ch h3{font-size:16px; font-weight:600}
+.card .ch .act{margin-left:auto; font-size:13px; color:var(--teal); font-weight:600; cursor:pointer}
+
+/* KPI */
+.kpi{background:#fff; border:1px solid var(--border); border-radius:var(--r-lg); padding:20px; box-shadow:var(--sh-2); transition:transform .2s, box-shadow .2s}
+.kpi:hover{transform:translateY(-3px); box-shadow:var(--sh-3)}
+.kpi .lbl{font-size:13px; color:var(--ink3)}
+.kpi .val{font-family:'Sora'; font-weight:700; font-size:30px; margin:7px 0 5px; letter-spacing:-.01em}
+.kpi .val.g{color:var(--green-dark)} .kpi .val.t{color:var(--teal)} .kpi .val.d{color:var(--danger)}
+.kpi .delta{font-size:12.5px; font-weight:600; display:inline-flex; gap:5px; align-items:center}
+.kpi .up{color:var(--success)} .kpi .down{color:var(--danger)} .kpi .flat{color:var(--ink3)}
+.kpi .spark{height:30px; margin-top:12px; display:block; width:100%}
+
+/* Intelligence panel (light glass) */
+.panel{position:relative; overflow:hidden; background:#fff; border:1px solid var(--border); border-radius:var(--r-xl); padding:30px 26px 26px; box-shadow:var(--sh-3)}
+.panel::before{content:"";position:absolute; width:440px;height:440px; right:-160px;top:-200px; background:radial-gradient(circle,rgba(43,160,206,.13),transparent 62%)}
+.panel::after{content:"";position:absolute; width:360px;height:360px; left:-160px;bottom:-230px; background:radial-gradient(circle,rgba(126,200,39,.11),transparent 60%)}
+.panel .acc{position:absolute; top:0;left:0;right:0; height:4px; background:var(--pulse-grad)}
+.panel .pbar{position:relative; display:flex; align-items:center; gap:10px; margin-bottom:20px}
+.panel .pbar .wm{font-family:'Sora'; font-weight:800; font-size:16px}
+.panel .pbar .wm b{background:var(--pulse-grad-soft); -webkit-background-clip:text;background-clip:text;color:transparent}
+.panel .pbar .t{font-size:13px; color:var(--ink3)}
+.panel .pbar .live{margin-left:auto; font-size:12px; font-weight:600; color:var(--green-dark); display:flex; align-items:center; gap:6px}
+.panel .pbar .live i{width:7px;height:7px;border-radius:50%;background:var(--green); animation:pulse 2s infinite}
+.dmets{position:relative; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px}
+.dmet{background:var(--bg2); border:1px solid var(--border); border-radius:var(--r-md); padding:16px}
+.dmet .v{font-family:'Sora'; font-weight:700; font-size:26px}
+.dmet .v.g{color:var(--green-dark)} .dmet .v.t{color:var(--teal)}
+.dmet .l{font-size:11.5px; color:var(--ink3); margin-top:4px}
+.drow{position:relative; display:flex; align-items:center; gap:12px; margin:11px 0; font-size:13px; color:var(--ink2)}
+.drow .n{width:84px} .drow .p{width:42px; text-align:right; color:var(--ink); font-weight:600}
+.drow .tk{flex:1; height:8px; background:var(--bg3); border-radius:99px; overflow:hidden}
+.drow .fl{display:block; height:100%; background:var(--pulse-grad-soft); border-radius:99px}
+.panel .cap{position:relative; font-size:12px; color:var(--ink3); margin-bottom:10px}
+
+/* AI insight */
+.ai{position:relative; overflow:hidden; background:var(--pulse-grad); color:#fff; border-radius:var(--r-lg); padding:22px; box-shadow:0 24px 50px -26px rgba(26,127,168,.6)}
+.ai .tag{font-size:11px; text-transform:uppercase; letter-spacing:.1em; font-weight:700; opacity:.9; display:flex; align-items:center; gap:7px}
+.ai h3{color:#fff; font-size:18px; margin:10px 0 8px; line-height:1.25}
+.ai p{margin:0 0 16px; color:rgba(255,255,255,.92); font-size:14px; line-height:1.55}
+.ai .mini{display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.25); color:#fff; font-size:13px; font-weight:600; padding:8px 14px; border-radius:9px; cursor:pointer}
+
+/* gauge */
+.gauge-wrap{display:flex; align-items:center; gap:20px}
+.gauge{width:122px;height:122px;border-radius:50%; flex:none; display:grid; place-items:center; background:conic-gradient(var(--teal) 0 74%, var(--bg3) 74% 100%)}
+.gauge .in{width:92px;height:92px;border-radius:50%;background:#fff; display:grid; place-items:center; text-align:center}
+.gauge .n{font-family:'Sora'; font-weight:700; font-size:26px}
+.gauge .c{font-size:10.5px; color:var(--ink3)}
+
+/* table */
+.tbl{width:100%; border-collapse:collapse}
+.tbl th{font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink3); text-align:left; padding:0 14px 12px; font-weight:700}
+.tbl td{padding:13px 14px; border-top:1px solid var(--border); font-size:13.5px; color:var(--ink2)}
+.tbl td.nm{font-weight:600; color:var(--ink)}
+.tbl tr:hover td{background:var(--bg2)}
+.badge{display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; padding:4px 10px; border-radius:99px}
+.b-live{background:var(--green-tint); color:var(--green-dark)} .b-sync{background:#fcf2dd; color:var(--warning)} .b-beta{background:var(--teal-tint); color:var(--teal-dark)}
+.trend.up{color:var(--success); font-weight:600} .trend.down{color:var(--danger); font-weight:600} .trend.flat{color:var(--ink3)}
+
+/* feed */
+.feed{display:flex; flex-direction:column; gap:2px}
+.fi{display:flex; gap:12px; padding:13px 4px; border-top:1px solid var(--border)}
+.fi:first-child{border-top:0}
+.fi .ic{width:34px;height:34px;border-radius:9px; flex:none; display:grid; place-items:center; font-size:15px}
+.fi .ic.pos{background:var(--green-tint)} .fi .ic.neg{background:#fde9e8} .fi .ic.info{background:var(--teal-tint)}
+.fi .tx{font-size:13.5px; color:var(--ink2); line-height:1.45}
+.fi .tx b{color:var(--ink)}
+.fi .tm{font-size:11.5px; color:var(--ink3); margin-top:3px}
+
+/* charts */
+.eq{grid-template-columns:repeat(2,minmax(0,1fr))}
+.chartwrap{position:relative}
+.trend-svg{width:100%; height:auto; display:block; overflow:visible}
+.xaxis{display:flex; justify-content:space-between; margin-top:8px; font-size:11.5px; color:var(--ink3)}
+.legend{display:flex; gap:16px; font-size:12.5px; color:var(--ink2); margin-top:14px}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px; display:inline-block}
+.tbars{display:flex; flex-direction:column; gap:15px}
+.tbar .row{display:flex; justify-content:space-between; font-size:13.5px; color:var(--ink2); margin-bottom:6px}
+.tbar .row b{color:var(--ink); font-weight:600}
+.tbar .tk{height:11px; background:var(--bg3); border-radius:99px; overflow:hidden}
+.tbar .fl{display:block; height:100%; background:var(--pulse-grad-soft); border-radius:99px}
+.heat{width:100%; border-collapse:separate; border-spacing:6px}
+.heat th{font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink3); font-weight:700; padding:0 2px 4px; text-align:center}
+.heat td.lab{font-size:13px; color:var(--ink); text-align:left; white-space:nowrap; font-weight:500; padding-right:8px}
+.heat .cell{border-radius:8px; padding:11px 0; text-align:center; font-size:13px; font-weight:700; color:var(--ink)}
+@media (max-width:1080px){ .kpis{grid-template-columns:repeat(2,minmax(0,1fr))} .cols,.cols2,.eq{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:760px){ .app{grid-template-columns:1fr} .sb{display:none} .kpis{grid-template-columns:1fr} .dmets{grid-template-columns:1fr} .search{display:none} .top{padding:13px 18px} .content{padding:22px 18px 40px} }
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sb">
+    <div class="logo"><img src="assets/pulsur-logo.png" alt="pulsur" style="height:26px;width:auto" onload="this.parentElement.classList.add('has-logo');var w=document.getElementById('dbWm');if(w)w.style.display='none'" onerror="this.remove()"><span class="wm" id="dbWm">p<b>ulsur</b></span><span class="pd"></span></div>
+    <a class="nav on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg> Dashboard</a>
+    <a class="nav"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 8-8"/><path d="M16 8h4v4"/></svg> Insights</a>
+    <a class="nav"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="6"/><path d="M15 15l6 6"/></svg> Segments</a>
+    <a class="nav"><svg viewBox="0 0 24 24"><path d="M4 7c0-1.5 3.6-3 8-3s8 1.5 8 3-3.6 3-8 3-8-1.5-8-3z"/><path d="M4 7v10c0 1.5 3.6 3 8 3s8-1.5 8-3V7"/></svg> Sources</a>
+    <a class="nav"><svg viewBox="0 0 24 24"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6"/></svg> Reports</a>
+    <div class="grp">Account</div>
+    <a class="nav"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg> Settings</a>
+    <a class="nav"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 .9-1 1.7"/><path d="M12 17h.01"/></svg> Help</a>
+    <div class="spacer"></div>
+    <div class="me"><span class="av"></span><div><div class="nm">Dr. H. Cornet</div><div class="rl">Urban Innovate</div></div></div>
+  </aside>
+
+  <!-- WORKSPACE -->
+  <div class="work">
+    <header class="top">
+      <div class="crumb">pulsur / <b>Dashboard</b></div>
+      <div class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg>
+        <input placeholder="Search insights, segments, sources…">
+      </div>
+      <button class="icbtn"><span class="badge-dot"></span><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></button>
+      <button class="btn btn-pulse btn-sm">＋ Run analysis</button>
+      <span class="avatar"></span>
+    </header>
+
+    <div class="content">
+
+      <!-- PAGE HEAD -->
+      <div class="pagehead">
+        <div>
+          <h1>Overview</h1>
+          <div class="sub">San Francisco mobility · public conversations</div>
+        </div>
+        <div class="right">
+          <span class="pill">📅 Last 30 days ▾</span>
+          <button class="btn btn-ghost btn-sm">Export</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="grid kpis" style="margin-bottom:18px">
+        <div class="kpi">
+          <div class="lbl">Sentiment index</div><div class="val t">74.2</div><div class="delta up">▲ 2.1 vs last period</div>
+          <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="0,22 15,20 30,21 45,15 60,16 75,9 100,7" fill="none" stroke="#1a7fa8" stroke-width="2.5"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lbl">Conversations</div><div class="val">12,480</div><div class="delta up">▲ 18%</div>
+          <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="0,24 20,22 40,18 60,17 80,10 100,6" fill="none" stroke="#5e9a1a" stroke-width="2.5"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lbl">Active segments</div><div class="val g">6</div><div class="delta flat">— stable</div>
+          <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="0,15 25,15 50,15 75,15 100,15" fill="none" stroke="#7088a0" stroke-width="2.5"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lbl">Negative flags</div><div class="val d">3.1%</div><div class="delta down">▼ 0.6%</div>
+          <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="0,8 20,12 40,11 60,16 80,18 100,22" fill="none" stroke="#d8453f" stroke-width="2.5"/></svg>
+        </div>
+      </div>
+
+      <!-- MAIN ROW: panel + AI/gauge -->
+      <div class="grid cols" style="margin-bottom:18px">
+        <div class="panel">
+          <span class="acc"></span>
+          <div class="pbar"><span class="wm">p<b>ulsur</b></span><span class="t">· analytics overview</span><span class="live"><i></i> Live</span></div>
+          <div class="dmets">
+            <div class="dmet"><div class="v g">+18%</div><div class="l">Ridership forecast</div></div>
+            <div class="dmet"><div class="v">74.2</div><div class="l">Sentiment index</div></div>
+            <div class="dmet"><div class="v t">6</div><div class="l">Active segments</div></div>
+          </div>
+          <div class="cap">Travel motivation — San Francisco</div>
+          <div class="drow"><span class="n">Commute</span><span class="tk"><span class="fl" style="width:78%"></span></span><span class="p">78%</span></div>
+          <div class="drow"><span class="n">Leisure</span><span class="tk"><span class="fl" style="width:52%;opacity:.9"></span></span><span class="p">52%</span></div>
+          <div class="drow"><span class="n">Education</span><span class="tk"><span class="fl" style="width:35%;opacity:.78"></span></span><span class="p">35%</span></div>
+          <div class="drow"><span class="n">Medical</span><span class="tk"><span class="fl" style="width:21%;opacity:.62"></span></span><span class="p">21%</span></div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:18px">
+          <div class="ai">
+            <div class="tag">✦ AI insight</div>
+            <h3>Commuters value reliability over speed</h3>
+            <p>Across 12k conversations, “on-time” outranked “fast” 3:1. Consider leading with dependability in messaging.</p>
+            <span class="mini">See the evidence →</span>
+          </div>
+          <div class="card">
+            <div class="ch"><h3>Overall sentiment</h3><span class="act">Details</span></div>
+            <div class="gauge-wrap">
+              <div class="gauge"><div class="in"><div><div class="n">74</div><div class="c">/ 100</div></div></div></div>
+              <div style="font-size:13.5px;color:var(--ink2)">Positive and <b style="color:var(--green-dark)">rising</b>. Driven by improved on-time perception on the new line.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECOND ROW: table + feed -->
+      <div class="grid cols2">
+        <div class="card">
+          <div class="ch"><h3>Segments</h3><span class="act">View all</span></div>
+          <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+          <table class="tbl" style="min-width:480px">
+            <thead><tr><th>Segment</th><th>Conversations</th><th>Sentiment</th><th>Trend</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="nm">Daily commuters</td><td>5,210</td><td>+76</td><td class="trend up">▲ 4%</td><td><span class="badge b-live">● Live</span></td></tr>
+              <tr><td class="nm">Occasional riders</td><td>3,040</td><td>+61</td><td class="trend up">▲ 1%</td><td><span class="badge b-live">● Live</span></td></tr>
+              <tr><td class="nm">Students</td><td>2,115</td><td>+68</td><td class="trend down">▼ 2%</td><td><span class="badge b-sync">Syncing</span></td></tr>
+              <tr><td class="nm">Accessibility users</td><td>1,115</td><td>+52</td><td class="trend flat">—</td><td><span class="badge b-beta">Beta</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="ch"><h3>Recent signals</h3><span class="act">Live</span></div>
+          <div class="feed">
+            <div class="fi"><span class="ic pos">▲</span><div><div class="tx"><b>Reliability</b> mentions up 12% after schedule change.</div><div class="tm">8 min ago</div></div></div>
+            <div class="fi"><span class="ic info">✦</span><div><div class="tx">New theme detected: <b>“night service gaps.”</b></div><div class="tm">42 min ago</div></div></div>
+            <div class="fi"><span class="ic neg">▼</span><div><div class="tx"><b>Crowding</b> complaints rising on Line 14.</div><div class="tm">1 h ago</div></div></div>
+            <div class="fi"><span class="ic pos">★</span><div><div class="tx">Students sentiment hit a <b>30-day high.</b></div><div class="tm">3 h ago</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SENTIMENT TREND (full width) -->
+      <div class="grid" style="margin-top:18px">
+        <div class="card">
+          <div class="ch"><h3>Sentiment over time</h3><span class="act">Last 12 weeks</span></div>
+          <div class="chartwrap">
+            <svg class="trend-svg" viewBox="0 0 720 200" role="img" aria-label="Sentiment index rising over the last 12 weeks">
+              <defs>
+                <linearGradient id="pArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2ba0ce" stop-opacity=".28"/><stop offset="1" stop-color="#7ec827" stop-opacity="0"/></linearGradient>
+                <linearGradient id="pLine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1a7fa8"/><stop offset="1" stop-color="#7ec827"/></linearGradient>
+              </defs>
+              <line x1="0" y1="40" x2="720" y2="40" stroke="#eef4f8" stroke-width="1"/>
+              <line x1="0" y1="90" x2="720" y2="90" stroke="#eef4f8" stroke-width="1"/>
+              <line x1="0" y1="140" x2="720" y2="140" stroke="#eef4f8" stroke-width="1"/>
+              <path d="M0,150 L65,146 L130,138 L195,140 L260,128 L325,122 L390,126 L455,110 L520,98 L585,92 L650,82 L720,74 L720,200 L0,200 Z" fill="url(#pArea)"/>
+              <path d="M0,150 L65,146 L130,138 L195,140 L260,128 L325,122 L390,126 L455,110 L520,98 L585,92 L650,82 L720,74" fill="none" stroke="url(#pLine)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="455" y1="22" x2="455" y2="165" stroke="#7088a0" stroke-width="1" stroke-dasharray="4 4"/>
+              <circle cx="455" cy="110" r="5" fill="#1a7fa8" stroke="#fff" stroke-width="2"/>
+              <circle cx="720" cy="74" r="5.5" fill="#7ec827" stroke="#fff" stroke-width="2"/>
+            </svg>
+            <div style="position:absolute; left:63%; top:0; transform:translateX(-46%); font-size:11.5px; color:var(--ink3); background:#fff; padding:1px 6px; border-radius:6px">↓ New line launched</div>
+          </div>
+          <div class="xaxis"><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div>
+          <div class="legend"><span><i style="background:var(--pulse-grad-soft)"></i> Sentiment index (0–100)</span><span style="color:var(--ink3)">Now: <b style="color:var(--teal-dark)">74.2</b></span></div>
+        </div>
+      </div>
+
+      <!-- TOP THEMES + HEATMAP -->
+      <div class="grid eq" style="margin-top:18px">
+        <div class="card">
+          <div class="ch"><h3>What people talk about</h3><span class="act">By volume</span></div>
+          <div class="tbars">
+            <div class="tbar"><div class="row"><span>Reliability</span><b>4,210</b></div><div class="tk"><span class="fl" style="width:100%"></span></div></div>
+            <div class="tbar"><div class="row"><span>Crowding</span><b>3,120</b></div><div class="tk"><span class="fl" style="width:74%"></span></div></div>
+            <div class="tbar"><div class="row"><span>Cost &amp; fares</span><b>2,480</b></div><div class="tk"><span class="fl" style="width:59%"></span></div></div>
+            <div class="tbar"><div class="row"><span>Safety</span><b>1,890</b></div><div class="tk"><span class="fl" style="width:45%"></span></div></div>
+            <div class="tbar"><div class="row"><span>Cleanliness</span><b>1,340</b></div><div class="tk"><span class="fl" style="width:32%"></span></div></div>
+            <div class="tbar"><div class="row"><span>Accessibility</span><b>980</b></div><div class="tk"><span class="fl" style="width:23%"></span></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><h3>Theme × sentiment</h3><span class="act">Share of mentions</span></div>
+          <table class="heat">
+            <thead><tr><th></th><th>Positive</th><th>Neutral</th><th>Negative</th></tr></thead>
+            <tbody>
+              <tr><td class="lab">Reliability</td><td class="cell" style="background:rgba(126,200,39,.50)">64%</td><td class="cell" style="background:rgba(112,136,160,.19)">22%</td><td class="cell" style="background:rgba(216,69,63,.20)">14%</td></tr>
+              <tr><td class="lab">Crowding</td><td class="cell" style="background:rgba(126,200,39,.29)">28%</td><td class="cell" style="background:rgba(112,136,160,.20)">24%</td><td class="cell" style="background:rgba(216,69,63,.42)">48%</td></tr>
+              <tr><td class="lab">Cost &amp; fares</td><td class="cell" style="background:rgba(126,200,39,.37)">41%</td><td class="cell" style="background:rgba(112,136,160,.23)">33%</td><td class="cell" style="background:rgba(216,69,63,.28)">26%</td></tr>
+              <tr><td class="lab">Safety</td><td class="cell" style="background:rgba(126,200,39,.54)">70%</td><td class="cell" style="background:rgba(112,136,160,.18)">20%</td><td class="cell" style="background:rgba(216,69,63,.18)">10%</td></tr>
+              <tr><td class="lab">Cleanliness</td><td class="cell" style="background:rgba(126,200,39,.43)">52%</td><td class="cell" style="background:rgba(112,136,160,.22)">30%</td><td class="cell" style="background:rgba(216,69,63,.23)">18%</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--ink3);margin:14px 0 0">⚠ <b style="color:var(--ink)">Crowding</b> skews negative (48%) — the clearest action item.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

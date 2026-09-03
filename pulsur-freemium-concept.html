@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulsur Free — Concept for the team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#2ba0ce; --teal-dark:#63c6ea; --green:#8fdb35; --green-dark:#9fe036;
+  --ink:#eef5fb; --ink2:#aebfce; --ink3:#7d95a8;
+  --bg2:#080f18; --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.16);
+  --warning:#e7b24e; --danger:#ff6f67;
+  --grad:linear-gradient(125deg,#155f80,#1a7fa8 38%,#2ba0ce 64%,#7ec827 120%);
+  --grad-soft:linear-gradient(120deg,#2ba0ce,#7ec827);
+  --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));
+  --sh-2:0 18px 44px -26px rgba(0,0,0,.82);
+}
+*{box-sizing:border-box}
+body{margin:0; font-family:'Inter',sans-serif; color:var(--ink2); background:var(--bg2); -webkit-font-smoothing:antialiased; line-height:1.6}
+body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(1100px 720px at 100% -12%, rgba(43,160,206,.15), transparent 56%), radial-gradient(950px 720px at -10% 112%, rgba(143,219,53,.08), transparent 56%);}
+.wrap{position:relative; z-index:1; max-width:900px; margin:0 auto; padding:0 26px}
+h1,h2,h3,h4{font-family:'Sora',sans-serif; margin:0; color:var(--ink); line-height:1.2}
+a{color:var(--teal-dark); text-decoration:none}
+.eyebrow{font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--green-dark); display:inline-flex; align-items:center; gap:10px}
+.eyebrow::before{content:""; width:26px;height:2px; background:var(--green); border-radius:2px}
+
+/* header */
+header.hero{padding:60px 0 34px}
+.brand{display:flex; align-items:center; gap:9px; margin-bottom:26px}
+.brand .wm{font-family:'Sora'; font-weight:800; font-size:22px; letter-spacing:-.02em; color:var(--ink)}
+.brand .wm b{background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.brand .pd{width:8px;height:8px;border-radius:50%; background:var(--green); box-shadow:0 0 0 4px rgba(143,219,53,.16)}
+.hero h1{font-size:clamp(30px,5vw,46px); font-weight:800; letter-spacing:-.02em; margin:16px 0 0; max-width:18ch}
+.hero h1 em{font-style:normal; background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.hero .lede{font-size:18px; color:var(--ink2); margin:18px 0 0; max-width:60ch; font-weight:300}
+.audience{display:flex; gap:8px; flex-wrap:wrap; margin-top:22px}
+.audience span{font-size:12px; font-weight:600; color:var(--ink3); border:1px solid var(--border); padding:6px 12px; border-radius:999px}
+
+/* one-liner */
+.oneliner{position:relative; overflow:hidden; border:1px solid var(--border); border-radius:18px; padding:26px 28px; background:var(--card); box-shadow:var(--sh-2); margin:14px 0 8px}
+.oneliner::before{content:""; position:absolute; top:0;left:0;bottom:0; width:4px; background:var(--grad)}
+.oneliner .k{font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3)}
+.oneliner p{font-family:'Sora'; font-weight:600; font-size:20px; color:var(--ink); margin:8px 0 0; line-height:1.4}
+.oneliner b{background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+
+section{padding:34px 0 0}
+section > h2{font-size:24px; font-weight:700; margin:12px 0 6px}
+section > .sub{color:var(--ink2); font-size:15px; margin:0 0 20px; max-width:64ch}
+
+/* steps */
+.steps{display:grid; grid-template-columns:repeat(5,1fr); gap:12px}
+.step{border:1px solid var(--border); border-radius:14px; padding:18px 16px; background:var(--card)}
+.step .no{width:30px;height:30px;border-radius:9px; display:grid; place-items:center; font-family:'Sora'; font-weight:700; font-size:14px; color:#0c1a27; background:var(--grad-soft); margin-bottom:12px}
+.step h4{font-size:15px; margin-bottom:5px}
+.step p{font-size:13px; color:var(--ink3); margin:0}
+
+/* two columns free / locked */
+.cols{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+.col{border:1px solid var(--border); border-radius:16px; padding:22px; background:var(--card)}
+.col h3{font-size:16px; display:flex; align-items:center; gap:9px; margin-bottom:14px}
+.col h3 .dot{width:9px;height:9px;border-radius:50%}
+.col.free h3 .dot{background:var(--green)} .col.lock h3 .dot{background:var(--ink3)}
+.col ul{list-style:none; margin:0; padding:0}
+.col li{display:flex; gap:10px; padding:9px 0; border-top:1px solid var(--border); font-size:14px; color:var(--ink2)}
+.col li:first-child{border-top:0}
+.col li svg{width:16px;height:16px;flex:none;margin-top:3px;fill:none;stroke-width:2.2}
+.col.free li svg{stroke:var(--green-dark)} .col.lock li svg{stroke:var(--ink3)}
+
+/* generic cards row */
+.trio{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+.mini{border:1px solid var(--border); border-radius:14px; padding:20px; background:var(--card)}
+.mini h4{font-size:15px; margin-bottom:7px} .mini p{font-size:13.5px; color:var(--ink3); margin:0}
+.mini .ic{font-size:20px; margin-bottom:10px; display:block}
+
+/* rules / callout */
+.rules{border:1px solid var(--border); border-radius:16px; background:var(--card); padding:8px 24px}
+.rules .r{display:flex; gap:14px; align-items:flex-start; padding:16px 0; border-top:1px solid var(--border)}
+.rules .r:first-child{border-top:0}
+.rules .r .b{font-family:'Sora'; font-weight:700; color:var(--teal-dark); font-size:14px; min-width:64px}
+.rules .r p{margin:0; font-size:14px; color:var(--ink2)}
+.rules .r p b{color:var(--ink)}
+
+/* dev spec */
+.spec{border:1px solid var(--border); border-radius:16px; background:var(--card); padding:22px 24px}
+.spec li{font-size:14px; color:var(--ink2); margin:0 0 10px; padding-left:26px; position:relative; list-style:none}
+.spec li::before{content:"›"; position:absolute; left:6px; color:var(--teal-dark); font-weight:700}
+.spec ul{margin:0; padding:0}
+.tag{display:inline-block; font-family:'SF Mono',ui-monospace,monospace; font-size:12px; background:rgba(255,255,255,.06); color:var(--teal-dark); padding:2px 7px; border-radius:6px}
+
+/* metrics */
+.metrics{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+.metric{border:1px solid var(--border); border-radius:14px; padding:20px; background:var(--card)}
+.metric .n{font-family:'Sora'; font-weight:800; font-size:15px; color:var(--ink); margin-bottom:5px}
+.metric p{font-size:13px; color:var(--ink3); margin:0}
+
+.note{font-size:13.5px; color:var(--ink2); background:rgba(231,178,78,.09); border:1px solid rgba(231,178,78,.26); border-left:3px solid var(--warning); padding:14px 16px; border-radius:0 8px 8px 0; margin-top:16px}
+.note b{color:#f0cf95}
+
+footer{padding:44px 0 70px; margin-top:36px; border-top:1px solid var(--border); color:var(--ink3); font-size:13px; text-align:center}
+footer b{color:var(--ink2)}
+
+@media (max-width:820px){ .steps{grid-template-columns:repeat(2,1fr)} .cols,.trio,.metrics{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="brand"><span class="wm">p<b>ulsur</b></span><span class="pd"></span></div>
+    <div class="eyebrow">Product concept · for the team</div>
+    <h1>pulsur Free &mdash; <em>one Pulse Report</em>, then request access.</h1>
+    <p class="lede">A dead-simple free tier: every new user gets one full, genuinely impressive report for their city &mdash; then the live product locks. It&rsquo;s not a free tier; it&rsquo;s our best salesperson.</p>
+    <div class="audience"><span>👤 For: CEO &amp; leadership</span><span>🛠 For: Dev team</span><span>⏱ 3-minute read</span></div>
+  </header>
+
+  <!-- ONE-LINER -->
+  <div class="oneliner">
+    <div class="k">The idea in one sentence</div>
+    <p>Give every new user <b>exactly one full Pulse Report</b> for their city &mdash; real data, no credit card &mdash; and after that, the live platform locks until they request access.</p>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <div class="eyebrow">The flow</div>
+    <h2>How it works &mdash; 5 steps</h2>
+    <p class="sub">From landing page to qualified lead. Nothing here is complicated to build.</p>
+    <div class="steps">
+      <div class="step"><div class="no">1</div><h4>Claim</h4><p>Sign up with a work email, pick a city + focus. One choice, zero friction.</p></div>
+      <div class="step"><div class="no">2</div><h4>Generate</h4><p>A ~45s live &ldquo;listening&rdquo; screen. The wait signals that real machinery ran for them.</p></div>
+      <div class="step"><div class="no">3</div><h4>Report</h4><p>One complete, beautiful report. Theirs forever &mdash; viewable, downloadable, shareable.</p></div>
+      <div class="step"><div class="no">4</div><h4>Lock</h4><p>Everything live is blurred behind glass. &ldquo;Your snapshot is aging&mdash;the data moved on.&rdquo;</p></div>
+      <div class="step"><div class="no">5</div><h4>Ask</h4><p>One CTA everywhere: <b style="color:var(--teal-dark)">Request access</b>. Goes straight to the sales pipeline.</p></div>
+    </div>
+  </section>
+
+  <!-- FREE VS LOCKED -->
+  <section>
+    <div class="eyebrow">The boundary</div>
+    <h2>What&rsquo;s free vs. what&rsquo;s locked</h2>
+    <p class="sub">The report is full quality &mdash; we never water it down. The scarcity is in <em>frequency &amp; freshness</em>, not quality.</p>
+    <div class="cols">
+      <div class="col free">
+        <h3><span class="dot"></span> Free forever &mdash; the report</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> One full Pulse Report for one city</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Sentiment index, themes, segments, quotes, 1 AI insight</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Permanent &mdash; view, download PDF, share the link</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Watermarked &ldquo;Generated with pulsur&rdquo;</li>
+        </ul>
+      </div>
+      <div class="col lock">
+        <h3><span class="dot"></span> Locked &mdash; the live platform</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Real-time / refreshed data</li>
+          <li><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> A second report, second city, or re-run</li>
+          <li><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Segment breakdowns, rising themes, alerts</li>
+          <li><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Full history &amp; unlimited exports</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">🔑 <b>Locked ≠ invisible.</b> We show the real charts <b>blurred behind frosted glass</b> with a lock and a line of copy. Every blur is a personalised pitch using the user&rsquo;s own city data. See <a href="pulsur-freemium-v2.html">the mockup →</a></div>
+  </section>
+
+  <!-- WHY IT WORKS -->
+  <section>
+    <div class="eyebrow">Why it works</div>
+    <h2>Why this fits pulsur specifically</h2>
+    <p class="sub">We&rsquo;re sales-led and invite-only. This isn&rsquo;t a self-serve revenue engine &mdash; it&rsquo;s a lead-qualification machine.</p>
+    <div class="trio">
+      <div class="mini"><span class="ic">🎯</span><h4>The aha is <em>their</em> city</h4><p>Impossible to dismiss as a canned demo. Real local data is what makes an exec forward it internally.</p></div>
+      <div class="mini"><span class="ic">📤</span><h4>Built to be forwarded</h4><p>The champion (an analyst) carries the watermarked report to the buyer (a director). The report does the selling.</p></div>
+      <div class="mini"><span class="ic">⏳</span><h4>Aging is the pitch</h4><p>A dated snapshot gets staler daily while the live dashboard hums behind glass. &ldquo;The data moved on&rdquo; writes itself.</p></div>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section>
+    <div class="eyebrow">Guardrails</div>
+    <h2>The rules &mdash; keep it strict</h2>
+    <p class="sub">Strictness is the point. Generosity here just lets low-urgency users camp forever.</p>
+    <div class="rules">
+      <div class="r"><span class="b">1 / org</span><p><b>One report per organization</b> (email domain), not per user &mdash; blocks the second-account loophole.</p></div>
+      <div class="r"><span class="b">No re-run</span><p>No refresh, no second city, <b>no exceptions in-product</b>. Exceptions become a sales tool &mdash; reps can gift &ldquo;one more report&rdquo; in outreach.</p></div>
+      <div class="r"><span class="b">Full quality</span><p>The one report is <b>never degraded</b>. One flagship report converts better than three watered-down ones.</p></div>
+    </div>
+  </section>
+
+  <!-- DEV SPEC -->
+  <section>
+    <div class="eyebrow">For the dev team</div>
+    <h2>What we&rsquo;d actually build</h2>
+    <p class="sub">Small surface area. Most of it reuses the existing report + dashboard we already have.</p>
+    <div class="spec">
+      <ul>
+        <li>Signup with <span class="tag">work email</span> + city/focus picker (one screen).</li>
+        <li>A <span class="tag">reports_generated</span> flag keyed to <b>email domain</b> (1 max) &mdash; the whole gate lives here.</li>
+        <li>Reuse the existing report generator; add the ~45s &ldquo;generating&rdquo; progress screen for theatre.</li>
+        <li>A <b>locked state</b> for the dashboard: same components, rendered blurred + a veil overlay (front-end only).</li>
+        <li>A <span class="tag">Request access</span> form &rarr; writes a lead (city, focus, email) to the sales pipeline / CRM.</li>
+        <li>One automated email at day ~14: &ldquo;your report is aging&rdquo; + a single fresh teaser stat.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section>
+    <div class="eyebrow">How we&rsquo;ll know it works</div>
+    <h2>Success metrics</h2>
+    <p class="sub">We&rsquo;re optimising for qualified hand-raises, not signups.</p>
+    <div class="metrics">
+      <div class="metric"><div class="n">Report generated</div><p>Signup → report completed. Did they reach the aha?</p></div>
+      <div class="metric"><div class="n">Shares &amp; PDF downloads</div><p>Champion behaviour &mdash; our strongest buy signal.</p></div>
+      <div class="metric"><div class="n">Request-access rate</div><p>Report → &ldquo;request access,&rdquo; plus revisits to the locked screen.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <b>pulsur Free</b> &mdash; one report, then request access. &nbsp;·&nbsp; Product concept for review. &nbsp;·&nbsp; Mockup: <a href="pulsur-freemium-v2.html">pulsur-freemium-v2.html</a>
+  </footer>
+
+</div>
+</body>
+</html>
