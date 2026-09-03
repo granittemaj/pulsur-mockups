@@ -124,6 +124,7 @@ footer{padding:60px 0 70px;color:#7d95a8;font-size:13.5px;border-top:1px solid r
 @media (max-width:980px){.kpis{grid-template-columns:repeat(2,1fr)}.feat,.dl{grid-template-columns:1fr}.method{grid-template-columns:1fr}.m{border-right:0;border-bottom:1px solid var(--border)}.links{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
+<link rel="stylesheet" href="assets/pulsur-flow.css">
 </head>
 <body>
 
@@ -141,7 +142,7 @@ footer{padding:60px 0 70px;color:#7d95a8;font-size:13.5px;border-top:1px solid r
   <span class="sp"></span>
   <div class="navcta">
     <a class="btn btn-out btn-sm" style="color:#aebfce" href="pulsur-web-contact.html">Talk to our team</a>
-    <a class="btn btn-pulse btn-sm" href="pulsur-flow-v2.html">Free snapshot →</a>
+    <a class="btn btn-pulse btn-sm" href="pulsur-flow-v2.html" data-pulsur-open>Free snapshot →</a>
   </div>
 </div></nav>
 
@@ -153,7 +154,7 @@ footer{padding:60px 0 70px;color:#7d95a8;font-size:13.5px;border-top:1px solid r
     <p class="lede">The free snapshot is one city, one moment. The platform watches every city you operate in — continuously — and tells you the moment a narrative starts to move.</p>
     <div class="cta">
       <a class="btn btn-pulse btn-lg" href="pulsur-web-contact.html">Talk to our team →</a>
-      <a class="btn btn-out btn-lg" style="color:#aebfce" href="pulsur-flow-v2.html">Try the free snapshot</a>
+      <a class="btn btn-out btn-lg" style="color:#aebfce" href="pulsur-flow-v2.html" data-pulsur-open>Try the free snapshot</a>
     </div>
   </div>
 </header>
@@ -264,7 +265,7 @@ footer{padding:60px 0 70px;color:#7d95a8;font-size:13.5px;border-top:1px solid r
       <p>Tell us the question you're trying to answer. We'll tell you honestly whether pulsur can answer it.</p>
       <div class="cta">
         <a class="btn btn-white btn-lg" href="pulsur-web-contact.html">Talk to our team →</a>
-        <a class="btn btn-lg" style="background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.42)" href="pulsur-flow-v2.html">Start with a free snapshot</a>
+        <a class="btn btn-lg" style="background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.42)" href="pulsur-flow-v2.html" data-pulsur-open>Start with a free snapshot</a>
       </div>
     </div>
   </div>
@@ -287,5 +288,6 @@ footer{padding:60px 0 70px;color:#7d95a8;font-size:13.5px;border-top:1px solid r
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.14});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
 </script>
+<script src="assets/pulsur-flow.js" defer></script>
 </body>
 </html>

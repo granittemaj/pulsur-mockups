@@ -105,6 +105,7 @@ footer{padding:56px 0 66px;color:#7d95a8;font-size:13.5px;border-top:1px solid r
 @media (max-width:940px){.grid{grid-template-columns:1fr}.f2{grid-template-columns:1fr}.links{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<link rel="stylesheet" href="assets/pulsur-flow.css">
 </head>
 <body>
 
@@ -119,7 +120,7 @@ footer{padding:56px 0 66px;color:#7d95a8;font-size:13.5px;border-top:1px solid r
     <a href="pulsur-web-home.html#plans">Plans</a>
   </div>
   <span class="sp"></span>
-  <a class="btn btn-pulse btn-sm" href="pulsur-flow-v2.html">Free snapshot →</a>
+  <a class="btn btn-pulse btn-sm" href="pulsur-flow-v2.html" data-pulsur-open>Free snapshot →</a>
 </div></nav>
 
 <header class="hero t-dark">
@@ -198,7 +199,7 @@ footer{padding:56px 0 66px;color:#7d95a8;font-size:13.5px;border-top:1px solid r
             One of our analysts will reply within two working days. If it's urgent, email us directly at
             <a href="#" style="color:var(--teal);font-weight:600">hello@pulsur.ai</a>.
           </p>
-          <a class="btn btn-out" style="margin-top:24px" href="pulsur-flow-v2.html">Meanwhile, try a free snapshot →</a>
+          <a class="btn btn-out" style="margin-top:24px" href="pulsur-flow-v2.html" data-pulsur-open>Meanwhile, try a free snapshot →</a>
         </div>
       </div>
 
@@ -208,7 +209,7 @@ footer{padding:56px 0 66px;color:#7d95a8;font-size:13.5px;border-top:1px solid r
           <div class="k">Start free instead</div>
           <h4>Not ready to talk?</h4>
           <p>Get a free city snapshot in minutes — no login, no sales call. It's the fastest way to see whether pulsur is useful to you.</p>
-          <a class="btn btn-pulse" style="width:100%;margin-top:18px" href="pulsur-flow-v2.html">Get a free snapshot →</a>
+          <a class="btn btn-pulse" style="width:100%;margin-top:18px" href="pulsur-flow-v2.html" data-pulsur-open>Get a free snapshot →</a>
         </div>
 
         <div class="s">
@@ -246,5 +247,6 @@ function submitForm(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
+<script src="assets/pulsur-flow.js" defer></script>
 </body>
 </html>
