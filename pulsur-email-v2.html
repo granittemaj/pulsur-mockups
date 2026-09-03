@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulsur — Snapshot email</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#080f18;font-family:'Inter',sans-serif}
+  .page{padding:40px 20px 70px}
+  .label{max-width:640px;margin:0 auto 16px;color:#7d95a8;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-align:center}
+  .client{max-width:640px;margin:0 auto;background:#0e1926;border:1px solid rgba(255,255,255,.09);border-radius:16px 16px 0 0;padding:16px 20px;font-size:13px;color:#aebfce}
+  .client .row{display:flex;gap:8px;padding:3px 0}
+  .client .k{color:#7d95a8;width:64px;flex:none}
+  .client .k+span{color:#eef5fb;font-weight:500}
+  .note{max-width:640px;margin:22px auto 0;color:#7d95a8;font-size:12.5px;text-align:center;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="label">Email · magic link to the free snapshot</div>
+
+  <div class="client">
+    <div class="row"><span class="k">From</span><span>pulsur &lt;insights@pulsur.ai&gt;</span></div>
+    <div class="row"><span class="k">To</span><span>h.cornet@urban-innovate.com</span></div>
+    <div class="row"><span class="k">Subject</span><span>Your free Montreal snapshot is ready</span></div>
+  </div>
+
+  <!-- ===== EMAIL BODY (table-based, inline styles — email-client safe) ===== -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:640px;margin:0 auto;border-collapse:collapse;background:#0a121c;border:1px solid rgba(255,255,255,.09);border-top:0;border-radius:0 0 16px 16px;overflow:hidden">
+
+    <!-- header -->
+    <tr><td style="padding:30px 36px 26px;background:#0c1a27;border-bottom:1px solid rgba(255,255,255,.08)">
+      <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+        <td style="font-family:'Sora',sans-serif;font-weight:800;font-size:24px;letter-spacing:-.02em;color:#eef5fb">p<span style="color:#8fdb35">ulsur</span></td>
+        <td style="padding-left:10px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#8fdb35"></span></td>
+      </tr></table>
+    </td></tr>
+
+    <!-- hero -->
+    <tr><td style="padding:38px 36px 8px">
+      <div style="font-family:'Inter',sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#9fe036">Your free snapshot</div>
+      <h1 style="margin:14px 0 0;font-family:'Sora',sans-serif;font-size:30px;font-weight:800;letter-spacing:-.02em;color:#ffffff;line-height:1.2">
+        Montreal &mdash; transit reliability
+      </h1>
+      <p style="margin:14px 0 0;font-size:15.5px;line-height:1.65;color:#aebfce">
+        Hi Henriette &mdash; we analysed <strong style="color:#eef5fb">1,846 public posts and comments</strong> about transit reliability in Montreal. Your snapshot is ready to open.
+      </p>
+    </td></tr>
+
+    <!-- CTA -->
+    <tr><td style="padding:28px 36px 6px">
+      <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+        <td style="border-radius:12px;background:linear-gradient(125deg,#155f80 0%,#1a7fa8 38%,#2ba0ce 64%,#7ec827 120%)">
+          <a href="pulsur-snapshot-v2.html" style="display:inline-block;padding:16px 32px;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none">Open my snapshot &rarr;</a>
+        </td>
+      </tr></table>
+      <p style="margin:14px 0 0;font-size:13px;color:#7d95a8">This private link is valid for <strong style="color:#e7b24e">14 days</strong> and works for one city, one email.</p>
+    </td></tr>
+
+    <!-- what's inside -->
+    <tr><td style="padding:26px 36px 6px">
+      <div style="border:1px solid rgba(255,255,255,.09);border-radius:14px;background:rgba(255,255,255,.03);padding:22px 24px">
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7d95a8">What's inside</div>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px">
+          <tr><td style="padding:6px 0;font-size:14.5px;color:#aebfce">✓&nbsp;&nbsp;The dominant narratives driving the conversation</td></tr>
+          <tr><td style="padding:6px 0;font-size:14.5px;color:#aebfce">✓&nbsp;&nbsp;How the conversation feels &mdash; emotion breakdown</td></tr>
+          <tr><td style="padding:6px 0;font-size:14.5px;color:#aebfce">✓&nbsp;&nbsp;Who is speaking &mdash; persona mix</td></tr>
+          <tr><td style="padding:6px 0;font-size:14.5px;color:#aebfce">✓&nbsp;&nbsp;What the signal may mean for your network</td></tr>
+        </table>
+      </div>
+    </td></tr>
+
+    <!-- teaser -->
+    <tr><td style="padding:20px 36px 8px">
+      <div style="border:1px dashed rgba(255,255,255,.16);border-radius:14px;padding:20px 24px">
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7d95a8">Not in the free snapshot</div>
+        <p style="margin:9px 0 0;font-size:14px;line-height:1.6;color:#aebfce">
+          Route &amp; time patterns, persona × emotion crosstabs, verbatim evidence, city comparisons and continuous monitoring.
+          <a href="#" style="color:#63c6ea;font-weight:600;text-decoration:none">Request a custom pulsur study &rarr;</a>
+        </p>
+      </div>
+    </td></tr>
+
+    <!-- footer -->
+    <tr><td style="padding:28px 36px 34px">
+      <p style="margin:0;font-size:12.5px;line-height:1.7;color:#5f7789">
+        You're receiving this because you requested a free snapshot at pulsur.ai. Illustrative data from public online conversations &mdash; not statistically representative of all residents.
+      </p>
+      <p style="margin:12px 0 0;font-size:12.5px;color:#5f7789">
+        pulsur.ai &nbsp;·&nbsp; © 2026 Urban Innovate &nbsp;·&nbsp; <a href="#" style="color:#7d95a8;text-decoration:underline">Unsubscribe</a>
+      </p>
+    </td></tr>
+
+  </table>
+
+  <div class="note">Click <strong style="color:#aebfce">Open my snapshot</strong> to jump to the dashboard mockup.</div>
+</div>
+</body>
+</html>

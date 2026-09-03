@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulsur — Freemium flow prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#2ba0ce; --teal-bright:#4ec6f0; --teal-dark:#63c6ea;
+  --green:#8fdb35; --green-dark:#9fe036;
+  --ink:#eef5fb; --ink2:#aebfce; --ink3:#7d95a8;
+  --bg2:#080f18; --bg3:#16293a; --bg:#0a1420;
+  --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.16);
+  --danger:#ff6f67; --warning:#e7b24e;
+  --grad:linear-gradient(125deg,#155f80 0%,#1a7fa8 38%,#2ba0ce 64%,#7ec827 120%);
+  --grad-soft:linear-gradient(120deg,#2ba0ce,#7ec827);
+  --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));
+  --sh-2:0 18px 44px -26px rgba(0,0,0,.82);
+  --sh-3:0 30px 66px -30px rgba(0,0,0,.9);
+}
+*{box-sizing:border-box}
+body{margin:0; font-family:'Inter',sans-serif; color:var(--ink2); background:var(--bg2); -webkit-font-smoothing:antialiased; line-height:1.6; min-height:100vh}
+body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(1200px 780px at 100% -14%, rgba(43,160,206,.18), transparent 56%), radial-gradient(1000px 760px at -12% 112%, rgba(143,219,53,.10), transparent 56%);}
+h1,h2,h3,h4{font-family:'Sora',sans-serif; margin:0; color:var(--ink); line-height:1.18}
+a{color:var(--teal-dark); text-decoration:none}
+button{font-family:inherit}
+
+/* ===== top bar ===== */
+.top{position:sticky; top:0; z-index:40; background:rgba(9,15,23,.72); backdrop-filter:blur(16px); border-bottom:1px solid var(--border)}
+.top-in{max-width:1080px; margin:0 auto; padding:14px 26px; display:flex; align-items:center; gap:14px}
+.brand{display:flex; align-items:center; gap:9px}
+.brand img{height:26px;width:auto;display:block}
+.brand .wm{font-family:'Sora'; font-weight:800; font-size:21px; letter-spacing:-.02em; color:var(--ink)}
+.brand .wm b{background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.brand .pd{width:7px;height:7px;border-radius:50%; background:var(--green); box-shadow:0 0 0 4px rgba(143,219,53,.16); animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(143,219,53,.16)}50%{box-shadow:0 0 0 7px rgba(143,219,53,.03)}}
+.chip-free{font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#0c1a27; background:var(--grad-soft); padding:5px 11px; border-radius:999px}
+.sp{flex:1}
+.nologin{font-size:12.5px; color:var(--ink3)}
+
+/* progress */
+.steps{display:flex; align-items:center; gap:7px}
+.steps .s{width:26px; height:4px; border-radius:99px; background:rgba(255,255,255,.10); transition:background .35s}
+.steps .s.on{background:var(--grad-soft)}
+
+/* ===== stage ===== */
+.stage{position:relative; z-index:1; max-width:820px; margin:0 auto; padding:52px 26px 90px}
+.screen{display:none; animation:rise .5s cubic-bezier(.2,.7,.2,1)}
+.screen.on{display:block}
+@keyframes rise{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
+
+.eyebrow{font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--green-dark); display:inline-flex; align-items:center; gap:10px}
+.eyebrow::before{content:""; width:26px;height:2px; background:var(--green); border-radius:2px}
+h1.q{font-size:clamp(28px,4.4vw,40px); font-weight:800; letter-spacing:-.02em; margin:16px 0 0; max-width:20ch}
+h1.q em{font-style:normal; background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.lede{font-size:16.5px; color:var(--ink2); margin:14px 0 0; max-width:62ch; font-weight:300}
+
+/* input */
+.field{position:relative; margin-top:28px}
+.field textarea{width:100%; font:inherit; font-size:17px; color:var(--ink); background:rgba(255,255,255,.04); border:1.5px solid var(--border2); border-radius:16px; padding:20px 22px; min-height:112px; resize:vertical; transition:.18s; line-height:1.5}
+.field textarea::placeholder{color:#5f7789}
+.field textarea:focus{outline:none; border-color:var(--teal); background:rgba(255,255,255,.06); box-shadow:0 0 0 4px rgba(43,160,206,.16)}
+.hintrow{display:flex; align-items:center; gap:10px; margin-top:12px; font-size:12.5px; color:var(--ink3)}
+
+.exlabel{font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3); margin:26px 0 12px}
+.ex{display:flex; flex-direction:column; gap:9px}
+.ex button{text-align:left; width:100%; background:rgba(255,255,255,.03); border:1px solid var(--border); color:var(--ink2); font-size:14.5px; padding:14px 16px; border-radius:12px; cursor:pointer; transition:.18s; display:flex; align-items:center; gap:11px}
+.ex button:hover{background:rgba(255,255,255,.06); border-color:var(--teal); color:var(--ink); transform:translateX(3px)}
+.ex button .ar{margin-left:auto; color:var(--teal-dark); opacity:0; transition:.18s}
+.ex button:hover .ar{opacity:1}
+
+/* buttons */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:9px; font-weight:600; font-size:15px; padding:14px 24px; border-radius:12px; border:1.5px solid transparent; cursor:pointer; transition:transform .18s, box-shadow .18s, background .2s, border-color .2s; line-height:1}
+.btn:active{transform:translateY(1px)}
+.btn-pulse{background:var(--grad); color:#fff; background-size:170% 170%; box-shadow:0 14px 34px -12px rgba(43,160,206,.6)}
+.btn-pulse:hover{transform:translateY(-2px); background-position:100% 0}
+.btn-ghost{background:rgba(255,255,255,.04); color:var(--teal-dark); border-color:var(--border2)}
+.btn-ghost:hover{border-color:var(--teal); color:#e6f5fd}
+.btn-quiet{background:transparent; color:var(--ink3); border-color:transparent; padding:14px 8px}
+.btn-quiet:hover{color:var(--ink2)}
+.btn-lg{font-size:16px; padding:16px 30px}
+.actions{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:26px}
+
+/* cards */
+.card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:26px; box-shadow:var(--sh-2)}
+.card.glow{box-shadow:var(--sh-3), inset 0 1px 0 rgba(255,255,255,.05)}
+.card + .card{margin-top:14px}
+
+/* identified city block */
+.idrow{display:flex; align-items:flex-start; gap:16px}
+.idrow .ic{width:44px;height:44px;border-radius:13px; flex:none; display:grid; place-items:center; background:rgba(43,160,206,.14); font-size:20px}
+.kv{margin-top:4px}
+.kv .k{font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3)}
+.kv .v{font-family:'Sora'; font-weight:700; font-size:21px; color:var(--ink); margin-top:3px}
+.kv .v .accent{background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.reform{margin-top:18px; padding:18px 20px; border-radius:14px; background:rgba(255,255,255,.035); border:1px solid var(--border); border-left:3px solid var(--teal)}
+.reform .k{font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3)}
+.reform .t{font-family:'Sora'; font-weight:600; font-size:18px; color:var(--ink); margin-top:6px; line-height:1.35}
+
+/* city pills */
+.cities{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+.cities span{font-size:12.5px; font-weight:500; color:var(--ink2); background:rgba(255,255,255,.05); border:1px solid var(--border); padding:6px 12px; border-radius:999px}
+.cities span.hi{background:var(--grad-soft); color:#0c1a27; border-color:transparent; font-weight:700}
+
+/* notice */
+.notice{display:flex; gap:12px; padding:15px 17px; border-radius:12px; font-size:14px; align-items:flex-start; margin-top:4px}
+.n-warn{background:rgba(231,178,78,.10); border:1px solid rgba(231,178,78,.28); color:#f0cf95}
+.n-info{background:rgba(43,160,206,.10); border:1px solid rgba(43,160,206,.26); color:#c3e4f4}
+.notice b{color:#fff}
+
+/* dataset facts */
+.facts{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-top:18px}
+.fact{background:#0b1420; padding:16px 18px}
+.fact .k{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3)}
+.fact .v{font-family:'Sora'; font-weight:600; font-size:15.5px; color:var(--ink); margin-top:5px}
+.fact .v.big{font-size:24px; font-weight:800}
+.fact .v.big .u{font-size:13px; font-weight:500; color:var(--ink3); font-family:'Inter'}
+
+/* form */
+.form{display:grid; gap:16px; margin-top:22px}
+.form.two{grid-template-columns:1fr 1fr}
+.fg label{display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:7px}
+.fg label .opt{color:var(--ink3); font-weight:400}
+.inp{width:100%; font:inherit; font-size:15px; color:var(--ink); background:rgba(255,255,255,.04); border:1.5px solid var(--border2); border-radius:11px; padding:13px 15px; transition:.18s}
+.inp::placeholder{color:#5f7789}
+.inp:focus{outline:none; border-color:var(--teal); background:rgba(255,255,255,.06); box-shadow:0 0 0 4px rgba(43,160,206,.16)}
+textarea.inp{min-height:96px; resize:vertical; line-height:1.5}
+.check{display:flex; gap:11px; align-items:flex-start; font-size:13.5px; color:var(--ink2); margin-top:4px; cursor:pointer}
+.check input{width:18px;height:18px; accent-color:var(--teal); margin-top:2px; flex:none}
+
+/* generating */
+.gen{text-align:center; padding:36px 0 10px}
+.genring{width:96px;height:96px;border-radius:50%; margin:0 auto 26px; position:relative; display:grid; place-items:center}
+.genring::before{content:""; position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 0deg, transparent, #2ba0ce, #7ec827, transparent); animation:spin 1.15s linear infinite}
+.genring::after{content:""; position:absolute; inset:4px; border-radius:50%; background:#0a121c}
+.genring .dot{position:relative; z-index:1; width:11px;height:11px;border-radius:50%; background:var(--green); box-shadow:0 0 18px rgba(143,219,53,.8)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.genbar{height:5px; background:rgba(255,255,255,.08); border-radius:99px; overflow:hidden; max-width:420px; margin:24px auto 0}
+.genbar i{display:block; height:100%; width:0; background:var(--grad-soft); border-radius:99px; transition:width .4s ease}
+.genstat{font-size:14px; color:var(--ink2); margin-top:16px; min-height:22px}
+.genstat b{color:var(--teal-dark)}
+
+/* mailbox */
+.mail{text-align:center; padding:14px 0}
+.mailicon{width:86px;height:86px;border-radius:24px; margin:0 auto 24px; display:grid; place-items:center; font-size:38px; background:var(--card); border:1px solid var(--border); box-shadow:var(--sh-3)}
+.mailto{display:inline-block; font-family:'Sora'; font-weight:700; font-size:17px; color:var(--ink); background:rgba(255,255,255,.05); border:1px solid var(--border2); padding:9px 18px; border-radius:11px; margin-top:6px}
+.meta{display:flex; gap:22px; justify-content:center; flex-wrap:wrap; margin-top:26px}
+.meta .m{text-align:center}
+.meta .m .k{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3)}
+.meta .m .v{font-family:'Sora'; font-weight:700; font-size:15px; color:var(--ink); margin-top:4px}
+
+/* success */
+.ok{text-align:center; padding:20px 0}
+.okring{width:74px;height:74px;border-radius:50%; margin:0 auto 20px; display:grid; place-items:center; background:rgba(143,219,53,.14); border:1px solid rgba(143,219,53,.35)}
+.okring svg{width:32px;height:32px;stroke:var(--green-dark); fill:none; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round}
+
+/* teaser */
+.teaser{position:relative; overflow:hidden; margin-top:16px; border-radius:16px; padding:20px 22px; background:rgba(255,255,255,.03); border:1px dashed var(--border2)}
+.teaser .k{font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3)}
+.teaser p{margin:8px 0 0; font-size:14px; color:var(--ink2)}
+.teaser a{font-weight:600}
+
+/* modal */
+.modal{position:fixed; inset:0; z-index:80; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(4,9,15,.72); backdrop-filter:blur(6px)}
+.modal.on{display:flex; animation:fade .25s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal .box{width:100%; max-width:560px; background:linear-gradient(180deg,rgba(20,32,45,.98),rgba(11,19,28,.98)); border:1px solid var(--border2); border-radius:20px; padding:30px; box-shadow:0 40px 90px -30px rgba(0,0,0,.95); animation:rise .3s cubic-bezier(.2,.7,.2,1); max-height:90vh; overflow:auto}
+.modal h3{font-size:21px; font-weight:700}
+.modal .sub{font-size:14px; color:var(--ink3); margin-top:6px}
+
+/* footer */
+.foot{position:relative; z-index:1; max-width:820px; margin:0 auto; padding:0 26px 50px; color:var(--ink3); font-size:12.5px; text-align:center}
+
+/* demo bar */
+.demo{position:fixed; right:18px; bottom:18px; z-index:60; display:flex; gap:7px; align-items:center; background:rgba(11,19,28,.9); backdrop-filter:blur(10px); border:1px solid var(--border2); padding:8px 10px; border-radius:14px; box-shadow:var(--sh-3)}
+.demo .lb{font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); margin-right:2px}
+.demo button{font-size:12px; font-weight:600; color:var(--ink2); background:rgba(255,255,255,.05); border:1px solid var(--border); padding:6px 10px; border-radius:8px; cursor:pointer}
+.demo button:hover{color:var(--ink); border-color:var(--teal)}
+
+@media (max-width:700px){ .form.two{grid-template-columns:1fr} .facts{grid-template-columns:1fr} .demo{display:none} .steps{display:none} }
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- TOP -->
+<div class="top"><div class="top-in">
+  <div class="brand">
+    <img src="assets/pulsur-logo.png" alt="pulsur" onload="var w=document.getElementById('wm');if(w)w.style.display='none'" onerror="this.remove()">
+    <span class="wm" id="wm">p<b>ulsur</b></span><span class="pd"></span>
+  </div>
+  <span class="chip-free">Free snapshot</span>
+  <span class="sp"></span>
+  <div class="steps" id="steps"><i class="s on"></i><i class="s"></i><i class="s"></i><i class="s"></i></div>
+  <span class="nologin">No login required</span>
+</div></div>
+
+<div class="stage">
+
+  <!-- 1 · ASK -->
+  <section class="screen on" data-screen="ask">
+    <div class="eyebrow">Explore with pulsur</div>
+    <h1 class="q">What would you like to understand about <em>transportation in a city?</em></h1>
+    <p class="lede">pulsur turns public online conversations into measurable insight on how people experience transportation. Ask in your own words.</p>
+
+    <div class="field">
+      <textarea id="qInput" placeholder="e.g. Why are people frustrated with buses in Detroit?"></textarea>
+    </div>
+    <div class="hintrow"><span>🔒</span> Your question is saved so we can improve coverage — no account needed.</div>
+
+    <div class="actions">
+      <button class="btn btn-pulse btn-lg" onclick="analyze()">See what pulsur can analyze →</button>
+    </div>
+
+    <div class="exlabel">Try an example</div>
+    <div class="ex">
+      <button onclick="useEx('Why are people frustrated with buses in Montreal?')">💬 Why are people frustrated with buses in <b style="color:var(--ink)">Montreal</b>?<span class="ar">→</span></button>
+      <button onclick="useEx('What do people think about transit in the U.S.?')">🌎 What do people think about transit in <b style="color:var(--ink)">the U.S.</b>?<span class="ar">→</span></button>
+      <button onclick="useEx('Why are people frustrated with transit in Chicago?')">🚫 Why are people frustrated with transit in <b style="color:var(--ink)">Chicago</b>?<span class="ar">→</span></button>
+    </div>
+  </section>
+
+  <!-- 1b · ANALYZING -->
+  <section class="screen" data-screen="analyzing">
+    <div class="gen">
+      <div class="genring"><span class="dot"></span></div>
+      <h1 class="q" style="max-width:none; font-size:26px; margin:0 auto">Reading your question…</h1>
+      <div class="genstat" id="anaStat">Identifying the city…</div>
+    </div>
+  </section>
+
+  <!-- 2a · CITY MATCHED -->
+  <section class="screen" data-screen="match">
+    <div class="eyebrow">Here's what pulsur can analyze</div>
+    <h1 class="q" style="font-size:30px">We found a match for your question.</h1>
+
+    <div class="card glow" style="margin-top:24px">
+      <div class="idrow">
+        <span class="ic">📍</span>
+        <div style="flex:1">
+          <div class="kv"><div class="k">City identified</div><div class="v"><span class="accent" id="matchCity">Montreal</span></div></div>
+          <div class="reform">
+            <div class="k">Closest available analysis</div>
+            <div class="t" id="matchQ">What are the main narratives around transit reliability in Montreal?</div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-pulse" onclick="go('dataset')">Yes, analyze this →</button>
+        <button class="btn btn-quiet" onclick="go('nomatch')">This doesn't match what I need</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2b · NO CITY -->
+  <section class="screen" data-screen="nocity">
+    <div class="eyebrow">Here's what pulsur can analyze</div>
+    <h1 class="q" style="font-size:30px">Let's narrow it to one city.</h1>
+
+    <div class="card glow" style="margin-top:24px">
+      <div class="notice n-info">🌐 <div>pulsur freemium currently provides <b>city-level</b> analyses. Pick a city and we'll go deep.</div></div>
+      <div class="cities">
+        <span class="hi">San Francisco</span><span>San Jose</span><span>Baltimore</span><span>Toronto</span><span>Montreal</span><span>Jacksonville</span><span>Atlanta</span><span>Birmingham</span><span>Washington, DC</span><span>Boston</span>
+      </div>
+      <div class="reform" style="margin-top:20px">
+        <div class="k">Suggested start</div>
+        <div class="t">What are the main narratives around public transit in San Francisco?</div>
+        <p style="margin:10px 0 0; font-size:13.5px; color:var(--ink3)">To give you a useful free snapshot, we can start with <b style="color:var(--ink2)">San Francisco</b>, where pulsur currently has its largest dataset.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-pulse" onclick="setCity('San Francisco','What are the main narratives around public transit in San Francisco?','Public transit','Narratives'); go('dataset')">Yes, analyze this →</button>
+        <button class="btn btn-quiet" onclick="go('nomatch')">This doesn't match what I need</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2c · CITY UNAVAILABLE -->
+  <section class="screen" data-screen="unavailable">
+    <div class="eyebrow">Here's what pulsur can analyze</div>
+    <h1 class="q" style="font-size:30px"><span id="unavCity">Chicago</span> isn't available yet.</h1>
+
+    <div class="card glow" style="margin-top:24px">
+      <div class="notice n-warn">⚠ <div><b id="unavCity2">Chicago</b> is not currently in pulsur freemium — but we're expanding.</div></div>
+      <div style="font-size:13px; color:var(--ink3); margin-top:18px; font-weight:600; letter-spacing:.08em; text-transform:uppercase">Currently available</div>
+      <div class="cities">
+        <span class="hi">San Francisco</span><span>San Jose</span><span>Baltimore</span><span>Toronto</span><span>Montreal</span><span>Jacksonville</span><span>Atlanta</span><span>Birmingham</span><span>Washington, DC</span><span>Boston</span>
+      </div>
+      <div class="reform" style="margin-top:20px">
+        <div class="k">Closest free analysis we can offer</div>
+        <div class="t">What are the main narratives around public transit in San Francisco?</div>
+        <p style="margin:10px 0 0; font-size:13.5px; color:var(--ink3)">San Francisco has pulsur's largest dataset today.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-pulse" onclick="setCity('San Francisco','What are the main narratives around public transit in San Francisco?','Public transit','Narratives'); go('dataset')">Yes, analyze this →</button>
+        <button class="btn btn-ghost" onclick="go('request')">I want to request <span id="unavCity3">Chicago</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · REQUEST A CITY -->
+  <section class="screen" data-screen="request">
+    <div class="eyebrow">Request a city</div>
+    <h1 class="q" style="font-size:30px">Tell us where you need coverage.</h1>
+    <p class="lede">We prioritise new cities by demand. Requesting takes 20 seconds and we'll email you the moment it's live.</p>
+
+    <div class="card" style="margin-top:22px">
+      <div class="form two">
+        <div class="fg"><label>Requested city</label><input class="inp" id="reqCity" placeholder="Chicago"></div>
+        <div class="fg"><label>Work email</label><input class="inp" type="email" placeholder="you@organization.com"></div>
+      </div>
+      <div class="form">
+        <div class="fg"><label>What would you like to understand?</label><textarea class="inp" placeholder="e.g. Why are riders frustrated with the Blue Line?"></textarea></div>
+      </div>
+      <label class="check"><input type="checkbox" checked> Notify me as soon as this city is available in pulsur.</label>
+      <label class="check"><input type="checkbox"> I don't want to receive occasional pulsur updates and research insights.</label>
+      <div class="actions">
+        <button class="btn btn-pulse" onclick="go('request-done')">Send my request →</button>
+        <button class="btn btn-quiet" onclick="go('unavailable')">Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3b · REQUEST DONE -->
+  <section class="screen" data-screen="request-done">
+    <div class="card glow">
+      <div class="ok">
+        <div class="okring"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h1 class="q" style="font-size:26px; max-width:none; margin:0 auto">Request received.</h1>
+        <p class="lede" style="margin:12px auto 0; max-width:46ch">We'll review whether pulsur can support it, and email you the moment <b style="color:var(--ink2)">Chicago</b> goes live.</p>
+        <div class="actions" style="justify-content:center">
+          <button class="btn btn-pulse" onclick="setCity('San Francisco','What are the main narratives around public transit in San Francisco?','Public transit','Narratives'); go('dataset')">Continue with San Francisco →</button>
+          <button class="btn btn-quiet" onclick="go('ask')">Start over</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · NONE MATCH -->
+  <section class="screen" data-screen="nomatch">
+    <div class="eyebrow">Tell us more</div>
+    <h1 class="q" style="font-size:30px">What were you hoping to explore?</h1>
+    <p class="lede">Your original question is already saved. Add detail and we'll review whether pulsur can support it.</p>
+
+    <div class="card" style="margin-top:22px">
+      <div class="form">
+        <div class="fg"><label>What would you like pulsur to analyze?</label><textarea class="inp" placeholder="Describe the question, city, mode or audience you care about…"></textarea></div>
+        <div class="fg"><label>Email address <span class="opt">— required if you'd like a response</span></label><input class="inp" type="email" placeholder="you@organization.com"></div>
+      </div>
+      <label class="check"><input type="checkbox"> I don't want to receive occasional pulsur updates and research insights.</label>
+      <div class="actions">
+        <button class="btn btn-pulse" onclick="go('nomatch-done')">Send my request →</button>
+        <button class="btn btn-quiet" onclick="back()">Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4b · NONE MATCH DONE -->
+  <section class="screen" data-screen="nomatch-done">
+    <div class="card glow">
+      <div class="ok">
+        <div class="okring"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h1 class="q" style="font-size:26px; max-width:none; margin:0 auto">Thanks — we've received your request.</h1>
+        <p class="lede" style="margin:12px auto 0; max-width:48ch">We'll review whether pulsur can support it and get back to you.</p>
+        <div class="actions" style="justify-content:center">
+          <button class="btn btn-ghost" onclick="back()">Go back to the suggested analyses</button>
+          <button class="btn btn-quiet" onclick="go('ask')">Return to pulsur.ai</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · DATASET CONFIRM -->
+  <section class="screen" data-screen="dataset">
+    <div class="eyebrow">Ready to analyze</div>
+    <h1 class="q" style="font-size:30px">Here's exactly what we'll look at.</h1>
+
+    <div class="card glow" style="margin-top:24px">
+      <div class="reform" style="margin-top:0">
+        <div class="k">Analysis</div>
+        <div class="t" id="dsQ">What are the main narratives around transit reliability in Montreal?</div>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="k">City</div><div class="v" id="dsCity">Montreal</div></div>
+        <div class="fact"><div class="k">Mobility mode</div><div class="v" id="dsMode">Public transit</div></div>
+        <div class="fact"><div class="k">Topic</div><div class="v" id="dsTopic">Reliability</div></div>
+        <div class="fact"><div class="k">Data period</div><div class="v">Jan 2025 – Jul 2026</div></div>
+        <div class="fact" style="grid-column:span 2"><div class="k">Available evidence</div><div class="v big">1,846 <span class="u">relevant public posts &amp; comments</span></div></div>
+      </div>
+
+      <div class="teaser">
+        <div class="k">Not included in the free snapshot</div>
+        <p>Custom date ranges, additional cities, route &amp; time patterns, comparisons and continuous monitoring are available through a <a href="#" onclick="return false">custom pulsur study</a>.</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-pulse btn-lg" onclick="openModal()">Generate my free pulsur snapshot →</button>
+        <button class="btn btn-quiet" onclick="back()">Go back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · GENERATING -->
+  <section class="screen" data-screen="generating">
+    <div class="gen">
+      <div class="genring"><span class="dot"></span></div>
+      <h1 class="q" style="max-width:none; font-size:28px; margin:0 auto">Building your snapshot…</h1>
+      <div class="genbar"><i id="genBar"></i></div>
+      <div class="genstat" id="genStat">Collecting public conversations…</div>
+    </div>
+  </section>
+
+  <!-- 7 · CHECK MAILBOX -->
+  <section class="screen" data-screen="mailbox">
+    <div class="card glow">
+      <div class="mail">
+        <div class="mailicon">📬</div>
+        <h1 class="q" style="font-size:28px; max-width:none; margin:0 auto">Check your mailbox.</h1>
+        <p class="lede" style="margin:14px auto 0; max-width:48ch">Your free <b style="color:var(--ink2)" id="mbCity">Montreal</b> snapshot is ready. We've emailed you a private link to open it.</p>
+        <div class="mailto" id="mbEmail">you@organization.com</div>
+
+        <div class="meta">
+          <div class="m"><div class="k">Link valid for</div><div class="v">14 days</div></div>
+          <div class="m"><div class="k">Snapshots</div><div class="v">1 per email</div></div>
+          <div class="m"><div class="k">City</div><div class="v" id="mbCity2">Montreal</div></div>
+        </div>
+
+        <div class="teaser" style="text-align:left; margin-top:26px">
+          <div class="k">While you wait</div>
+          <p>Want route &amp; time patterns, persona × emotion breakdowns, verbatim evidence and continuous monitoring? <a href="#" onclick="return false">Request the deep dive →</a></p>
+        </div>
+
+        <div class="actions" style="justify-content:center">
+          <button class="btn btn-ghost" onclick="location.href='pulsur-email-v2.html'">Preview the email →</button>
+          <button class="btn btn-quiet" onclick="go('ask')">Start over</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="foot">Prototype · illustrative data only · pulsur.ai — a product of Urban Innovate</div>
+
+<!-- CONTACT MODAL -->
+<div class="modal" id="modal">
+  <div class="box">
+    <h3>Your snapshot is ready to generate</h3>
+    <div class="sub">One free snapshot per email address. We'll send your private link here.</div>
+    <div class="form two" style="margin-top:20px">
+      <div class="fg"><label>First name</label><input class="inp" id="mName" placeholder="Henriette"></div>
+      <div class="fg"><label>Work email</label><input class="inp" id="mEmail" type="email" placeholder="you@organization.com"></div>
+      <div class="fg"><label>Organization</label><input class="inp" placeholder="Urban Innovate"></div>
+      <div class="fg"><label>Role / job title <span class="opt">— optional</span></label><input class="inp" placeholder="Head of Mobility"></div>
+    </div>
+    <label class="check" style="margin-top:14px"><input type="checkbox"> I don't want to receive occasional pulsur updates and research insights.</label>
+    <div class="actions">
+      <button class="btn btn-pulse" onclick="generate()">Continue →</button>
+      <button class="btn btn-quiet" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO SWITCHER -->
+<div class="demo">
+  <span class="lb">Demo</span>
+  <button onclick="go('ask')">Start</button>
+  <button onclick="scenario('match')">City ✓</button>
+  <button onclick="scenario('nocity')">No city</button>
+  <button onclick="scenario('unavailable')">Not available</button>
+  <button onclick="go('mailbox')">Mailbox</button>
+</div>
+
+<script>
+(function(){
+  var AVAILABLE = {
+    'san francisco':['San Francisco','What are the main narratives around public transit in San Francisco?','Public transit','Narratives'],
+    'san jose':['San Jose','What are the main narratives around public transit in San Jose?','Public transit','Narratives'],
+    'baltimore':['Baltimore','What are the main narratives around public transit in Baltimore?','Public transit','Narratives'],
+    'toronto':['Toronto','What are the main narratives around transit reliability in Toronto?','Public transit','Reliability'],
+    'montreal':['Montreal','What are the main narratives around transit reliability in Montreal?','Public transit','Reliability'],
+    'jacksonville':['Jacksonville','What are the main narratives around public transit in Jacksonville?','Public transit','Narratives'],
+    'atlanta':['Atlanta','What are the main narratives around public transit in Atlanta?','Public transit','Narratives'],
+    'birmingham':['Birmingham','What are the main narratives around public transit in Birmingham?','Public transit','Narratives'],
+    'washington':['Washington, DC','What are the main narratives around public transit in Washington, DC?','Public transit','Narratives'],
+    'boston':['Boston','What are the main narratives around transit reliability in Boston?','Public transit','Reliability']
+  };
+  var KNOWN_OTHER = ['chicago','detroit','new york','los angeles','seattle','miami','dallas','houston','denver','phoenix','london','paris','berlin','madrid','vienna','lisbon','porto','rome','milan','sydney','melbourne','vancouver','calgary','ottawa'];
+
+  var stack = [];
+  var current = 'ask';
+  window.STATE = {city:'Montreal', q:'What are the main narratives around transit reliability in Montreal?', mode:'Public transit', topic:'Reliability', email:'you@organization.com'};
+
+  var STEP_OF = {ask:0, analyzing:0, match:1, nocity:1, unavailable:1, request:1, 'request-done':1, nomatch:1, 'nomatch-done':1, dataset:2, generating:3, mailbox:3};
+
+  function setSteps(n){
+    var els=document.querySelectorAll('#steps .s');
+    for(var i=0;i<els.length;i++) els[i].classList.toggle('on', i<=n);
+  }
+
+  window.go = function(name, noPush){
+    if(!noPush && name!==current) stack.push(current);
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('on'); });
+    var el=document.querySelector('.screen[data-screen="'+name+'"]');
+    if(el) el.classList.add('on');
+    current=name;
+    setSteps(STEP_OF[name]||0);
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  window.back = function(){ var p = stack.pop(); go(p||'ask', true); };
+
+  window.useEx = function(t){ document.getElementById('qInput').value=t; analyze(); };
+
+  window.setCity = function(city,q,mode,topic){
+    STATE.city=city; STATE.q=q; STATE.mode=mode; STATE.topic=topic;
+    document.getElementById('dsCity').textContent=city;
+    document.getElementById('dsQ').textContent=q;
+    document.getElementById('dsMode').textContent=mode;
+    document.getElementById('dsTopic').textContent=topic;
+    document.getElementById('mbCity').textContent=city;
+    document.getElementById('mbCity2').textContent=city;
+  };
+
+  function detect(text){
+    var t=(text||'').toLowerCase();
+    for(var k in AVAILABLE){ if(t.indexOf(k)>-1) return {type:'match', data:AVAILABLE[k]}; }
+    for(var i=0;i<KNOWN_OTHER.length;i++){ if(t.indexOf(KNOWN_OTHER[i])>-1) return {type:'unavailable', city:KNOWN_OTHER[i]}; }
+    return {type:'nocity'};
+  }
+  function title(s){ return s.replace(/\b\w/g,function(c){return c.toUpperCase();}); }
+
+  var ANA=['Identifying the city…','Matching to available datasets…','Checking coverage…'];
+  window.analyze = function(){
+    var txt=document.getElementById('qInput').value.trim();
+    if(!txt){ document.getElementById('qInput').focus(); return; }
+    var res=detect(txt);
+    go('analyzing');
+    var i=0, st=document.getElementById('anaStat');
+    st.textContent=ANA[0];
+    var iv=setInterval(function(){ i++; if(i<ANA.length) st.textContent=ANA[i]; },520);
+    setTimeout(function(){
+      clearInterval(iv);
+      if(res.type==='match'){
+        var d=res.data;
+        setCity(d[0],d[1],d[2],d[3]);
+        document.getElementById('matchCity').textContent=d[0];
+        document.getElementById('matchQ').textContent=d[1];
+        go('match', true);
+      } else if(res.type==='unavailable'){
+        var c=title(res.city);
+        document.getElementById('unavCity').textContent=c;
+        document.getElementById('unavCity2').textContent=c;
+        document.getElementById('unavCity3').textContent=c;
+        document.getElementById('reqCity').value=c;
+        go('unavailable', true);
+      } else { go('nocity', true); }
+    }, 1650);
+  };
+
+  window.scenario = function(kind){
+    var map={match:'Why are people frustrated with buses in Montreal?', nocity:'What do people think about transit in the U.S.?', unavailable:'Why are people frustrated with transit in Chicago?'};
+    document.getElementById('qInput').value=map[kind]; go('ask',true); analyze();
+  };
+
+  window.openModal = function(){ document.getElementById('modal').classList.add('on'); };
+  window.closeModal = function(){ document.getElementById('modal').classList.remove('on'); };
+
+  var GEN=['Collecting public conversations…','Filtering for relevance…','Detecting narratives…','Scoring emotion &amp; personas…','Composing your snapshot…'];
+  window.generate = function(){
+    var em=document.getElementById('mEmail').value.trim();
+    if(em){ STATE.email=em; document.getElementById('mbEmail').textContent=em; }
+    closeModal(); go('generating');
+    var bar=document.getElementById('genBar'), st=document.getElementById('genStat'), i=0;
+    bar.style.width='6%'; st.innerHTML=GEN[0];
+    var iv=setInterval(function(){
+      i++;
+      if(i<GEN.length){ st.innerHTML=GEN[i]; bar.style.width=(6+i*22)+'%'; }
+    }, 760);
+    setTimeout(function(){ clearInterval(iv); bar.style.width='100%'; setTimeout(function(){ go('mailbox', true); },400); }, 4100);
+  };
+
+  document.getElementById('qInput').addEventListener('keydown', function(e){
+    if(e.key==='Enter' && (e.metaKey||e.ctrlKey)) analyze();
+  });
+})();
+</script>
+</body>
+</html>

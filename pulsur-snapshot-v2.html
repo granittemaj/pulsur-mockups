@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulsur — Free city snapshot · Montreal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#2ba0ce; --teal-bright:#4ec6f0; --teal-dark:#63c6ea;
+  --green:#8fdb35; --green-dark:#9fe036;
+  --ink:#eef5fb; --ink2:#aebfce; --ink3:#7d95a8;
+  --bg2:#080f18; --bg3:#16293a; --bg:#0a1420;
+  --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.16);
+  --danger:#ff6f67; --warning:#e7b24e;
+  --grad:linear-gradient(125deg,#155f80 0%,#1a7fa8 38%,#2ba0ce 64%,#7ec827 120%);
+  --grad-soft:linear-gradient(120deg,#2ba0ce,#7ec827);
+  --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));
+  --sh-2:0 18px 44px -26px rgba(0,0,0,.82);
+  --sh-3:0 30px 66px -30px rgba(0,0,0,.9);
+}
+*{box-sizing:border-box}
+body{margin:0; font-family:'Inter',sans-serif; color:var(--ink2); background:var(--bg2); -webkit-font-smoothing:antialiased; line-height:1.6}
+body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(1200px 780px at 100% -14%, rgba(43,160,206,.17), transparent 56%), radial-gradient(1000px 760px at -12% 112%, rgba(143,219,53,.10), transparent 56%);}
+h1,h2,h3,h4{font-family:'Sora',sans-serif; margin:0; color:var(--ink); line-height:1.2}
+a{color:var(--teal-dark); text-decoration:none}
+.wrap{position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 26px}
+
+/* top bar */
+.top{position:sticky; top:0; z-index:40; background:rgba(9,15,23,.74); backdrop-filter:blur(16px); border-bottom:1px solid var(--border)}
+.top-in{max-width:1100px; margin:0 auto; padding:13px 26px; display:flex; align-items:center; gap:13px}
+.brand{display:flex; align-items:center; gap:9px}
+.brand img{height:25px;width:auto;display:block}
+.brand .wm{font-family:'Sora'; font-weight:800; font-size:20px; letter-spacing:-.02em; color:var(--ink)}
+.brand .wm b{background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.brand .pd{width:7px;height:7px;border-radius:50%; background:var(--green); box-shadow:0 0 0 4px rgba(143,219,53,.16); animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(143,219,53,.16)}50%{box-shadow:0 0 0 7px rgba(143,219,53,.03)}}
+.chip-free{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#0c1a27; background:var(--grad-soft); padding:5px 11px; border-radius:999px}
+.sp{flex:1}
+.expiry{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; color:#f0cf95; background:rgba(231,178,78,.12); border:1px solid rgba(231,178,78,.3); padding:7px 13px; border-radius:999px}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; font-weight:600; font-size:14px; padding:11px 20px; border-radius:11px; border:1.5px solid transparent; cursor:pointer; transition:transform .18s, box-shadow .18s, background .2s, border-color .2s; line-height:1}
+.btn:active{transform:translateY(1px)}
+.btn-pulse{background:var(--grad); color:#fff; background-size:170% 170%; box-shadow:0 12px 30px -12px rgba(43,160,206,.55)}
+.btn-pulse:hover{transform:translateY(-2px); background-position:100% 0}
+.btn-ghost{background:rgba(255,255,255,.04); color:var(--teal-dark); border-color:var(--border2)}
+.btn-ghost:hover{border-color:var(--teal); color:#e6f5fd}
+.btn-white{background:#fff;color:#0c1a27;font-size:15px;padding:14px 26px}
+.btn-white:hover{transform:translateY(-2px)}
+
+/* header */
+header.rep{padding:46px 0 26px}
+.crumb{font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--green-dark)}
+header.rep h1{font-size:clamp(28px,4.4vw,42px); font-weight:800; letter-spacing:-.02em; margin:16px 0 0; max-width:22ch}
+header.rep h1 em{font-style:normal; background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+header.rep .period{font-size:14px; color:var(--ink3); margin-top:14px}
+
+/* question strip */
+.qstrip{display:grid; grid-template-columns:1fr 250px; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-top:26px}
+.qstrip > div{background:#0b1420; padding:20px 24px}
+.qstrip .k{font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--ink3)}
+.qstrip .q{font-family:'Sora'; font-weight:600; font-size:17px; color:var(--ink); margin-top:7px; line-height:1.35}
+.qstrip .e{font-family:'Sora'; font-weight:800; font-size:24px; color:var(--ink); margin-top:7px}
+.qstrip .e span{font-family:'Inter'; font-size:13px; font-weight:500; color:var(--ink3); display:block; margin-top:2px}
+
+/* the signal */
+.signal{position:relative; overflow:hidden; margin-top:16px; border-radius:18px; padding:30px 32px; background:linear-gradient(135deg, rgba(143,219,53,.10), rgba(43,160,206,.07)); border:1px solid rgba(143,219,53,.24)}
+.signal::before{content:""; position:absolute; top:0;left:0;bottom:0; width:4px; background:var(--grad-soft)}
+.signal .k{font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--green-dark)}
+.signal h2{font-size:clamp(21px,2.8vw,29px); font-weight:800; letter-spacing:-.01em; margin:12px 0 0; max-width:26ch}
+.signal p{margin:14px 0 0; font-size:15.5px; color:var(--ink2); max-width:70ch}
+.signal p b{color:var(--ink)}
+
+/* stat row */
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:16px}
+.stat{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px 24px; box-shadow:var(--sh-2)}
+.stat.hero{background:linear-gradient(135deg,#0f2233,#0b1a27); border-color:rgba(143,219,53,.3); box-shadow:var(--sh-3), 0 0 0 1px rgba(143,219,53,.08)}
+.stat .k{font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--ink3)}
+.stat .v{font-family:'Sora'; font-weight:800; font-size:38px; letter-spacing:-.02em; color:var(--ink); margin:10px 0 0; line-height:1}
+.stat.hero .v{background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.stat .d{font-size:13px; color:var(--ink3); margin-top:8px}
+
+/* grid + cards */
+.grid{display:grid; gap:16px; margin-top:16px}
+.g2{grid-template-columns:1.35fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:24px; box-shadow:var(--sh-2)}
+.card .k{font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--green-dark)}
+.card h3{font-size:19px; font-weight:700; margin:8px 0 18px}
+.card .foot{font-size:12px; color:var(--ink3); margin-top:16px}
+
+/* narrative bars */
+.nb{display:flex; flex-direction:column; gap:15px}
+.nb .row{display:grid; grid-template-columns:1fr 150px 44px; align-items:center; gap:14px}
+.nb .lb{font-size:14px; color:var(--ink2)}
+.nb .tk{height:11px; background:rgba(255,255,255,.07); border-radius:99px; overflow:hidden}
+.nb .fl{display:block; height:100%; border-radius:99px; background:var(--grad-soft)}
+.nb .fl.muted{background:rgba(255,255,255,.18)}
+.nb .pc{font-family:'Sora'; font-weight:700; font-size:15px; color:var(--ink); text-align:right}
+
+/* emotion stacked */
+.emo{height:14px; border-radius:99px; overflow:hidden; display:flex; margin-bottom:16px}
+.emo i{display:block; height:100%}
+.legend{display:flex; flex-wrap:wrap; gap:8px 18px; font-size:13px; color:var(--ink2)}
+.legend span{display:inline-flex; align-items:center; gap:7px}
+.legend i{width:10px;height:10px;border-radius:3px; display:inline-block}
+.legend b{color:var(--ink); font-weight:700}
+
+/* persona */
+.per{display:flex; flex-direction:column; gap:13px}
+.per .row{display:grid; grid-template-columns:1fr 110px 40px; align-items:center; gap:12px}
+.per .lb{font-size:13.5px; color:var(--ink2)}
+.per .tk{height:9px; background:rgba(255,255,255,.07); border-radius:99px; overflow:hidden}
+.per .fl{display:block; height:100%; border-radius:99px; background:var(--grad-soft)}
+.per .pc{font-family:'Sora'; font-weight:700; font-size:14px; color:var(--ink); text-align:right}
+
+/* meaning cards */
+.mean{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px; box-shadow:var(--sh-2)}
+.mean .no{width:28px;height:28px;border-radius:9px; display:grid; place-items:center; font-family:'Sora'; font-weight:700; font-size:13px; color:#0c1a27; background:var(--grad-soft); margin-bottom:13px}
+.mean h4{font-size:16px; margin-bottom:7px}
+.mean p{font-size:13.5px; color:var(--ink3); margin:0}
+
+/* quote */
+.quote{margin-top:16px; border:1px solid var(--border); border-radius:16px; padding:30px 34px; background:rgba(255,255,255,.025)}
+.quote .k{font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--ink3)}
+.quote p{font-family:'Newsreader',Georgia,serif; font-style:italic; font-size:23px; line-height:1.5; color:var(--ink); margin:14px 0 0; max-width:60ch}
+
+/* locked */
+.lockedwrap{margin-top:34px}
+.seclabel{display:flex; align-items:center; gap:12px; margin:0 2px 15px}
+.seclabel .tt{font-family:'Sora'; font-weight:700; font-size:16px; color:var(--ink)}
+.seclabel .badge{display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,.06); color:var(--ink3)}
+.seclabel .badge svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.seclabel .rule{flex:1; height:1px; background:var(--border)}
+.locked{position:relative; overflow:hidden; border-radius:16px}
+.locked .blur{filter:blur(6px) saturate(.75); opacity:.6; pointer-events:none; user-select:none}
+.locked .veil{position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:9px; padding:20px; background:linear-gradient(180deg, rgba(8,15,24,.34), rgba(8,15,24,.76)); backdrop-filter:blur(2px)}
+.lockring{width:42px;height:42px;border-radius:50%; display:grid; place-items:center; border:1px solid var(--border2); background:rgba(255,255,255,.05)}
+.lockring svg{width:18px;height:18px; stroke:var(--teal-dark); fill:none; stroke-width:2}
+.veil .lt{font-family:'Sora'; font-weight:600; font-size:15px; color:var(--ink)}
+.veil .ls{font-size:12.5px; color:var(--ink2); max-width:32ch}
+.veil .unlock{margin-top:4px; font-size:13px; font-weight:600; color:var(--teal-dark); cursor:pointer}
+.veil .unlock:hover{color:#e6f5fd}
+.fakerow{display:flex; justify-content:space-between; padding:10px 0; border-top:1px solid var(--border); font-size:13px}
+.fakerow:first-child{border-top:0}
+
+/* cta band */
+.cta{position:relative; overflow:hidden; margin-top:34px; border-radius:20px; padding:36px; background:var(--grad); background-size:150% 150%; box-shadow:0 30px 70px -30px rgba(43,160,206,.6); display:grid; grid-template-columns:1fr auto; gap:26px; align-items:center}
+.cta h2{color:#fff; font-size:26px; font-weight:800; letter-spacing:-.01em; max-width:22ch}
+.cta p{color:rgba(255,255,255,.92); font-size:14.5px; margin:12px 0 0; max-width:60ch}
+.cta .tags{display:flex; gap:16px; flex-wrap:wrap; margin-top:14px; font-size:13px; color:#fff; font-weight:600}
+
+footer{padding:34px 0 60px; margin-top:30px; border-top:1px solid var(--border); color:var(--ink3); font-size:12.5px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+
+@media (max-width:900px){ .g2,.g3,.stats{grid-template-columns:1fr} .qstrip{grid-template-columns:1fr} .cta{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="top-in">
+  <div class="brand">
+    <img src="assets/pulsur-logo.png" alt="pulsur" onload="var w=document.getElementById('wm');if(w)w.style.display='none'" onerror="this.remove()">
+    <span class="wm" id="wm">p<b>ulsur</b></span><span class="pd"></span>
+  </div>
+  <span class="chip-free">Free city snapshot</span>
+  <span class="sp"></span>
+  <span class="expiry">⏳ Link expires in 13 days</span>
+  <button class="btn btn-pulse">Request the deep dive →</button>
+</div></div>
+
+<div class="wrap">
+
+  <header class="rep">
+    <div class="crumb">Montreal · Public transit · Reliability</div>
+    <h1>What Montreal riders are really saying about <em>transit reliability</em></h1>
+    <div class="period">Public online conversations · January 2025 – July 2026</div>
+  </header>
+
+  <!-- question + evidence -->
+  <div class="qstrip">
+    <div>
+      <div class="k">Question</div>
+      <div class="q">What are the main narratives around transit reliability in Montreal?</div>
+    </div>
+    <div>
+      <div class="k">Evidence</div>
+      <div class="e">1,846<span>posts &amp; comments</span></div>
+    </div>
+  </div>
+
+  <!-- THE SIGNAL -->
+  <div class="signal">
+    <div class="k">The signal</div>
+    <h2>Reliability problems are becoming a trust problem.</h2>
+    <p><b>45%</b> of the conversation links unreliable service to poor information or missed connections — suggesting that delays alone do not explain rider frustration.</p>
+  </div>
+
+  <!-- stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="k">Public conversation</div>
+      <div class="v">1,846</div>
+      <div class="d">relevant posts &amp; comments</div>
+    </div>
+    <div class="stat hero">
+      <div class="k">Emotional intensity</div>
+      <div class="v">73%</div>
+      <div class="d">frustrated, angry or tense</div>
+    </div>
+    <div class="stat">
+      <div class="k">Dominant persona</div>
+      <div class="v">46%</div>
+      <div class="d">pragmatic commuters</div>
+    </div>
+  </div>
+
+  <!-- narratives + emotion/persona -->
+  <div class="grid g2">
+    <div class="card">
+      <div class="k">Top narratives</div>
+      <h3>What is driving the reliability conversation?</h3>
+      <div class="nb">
+        <div class="row"><span class="lb">Unpredictable gaps erode trust</span><span class="tk"><i class="fl" style="width:100%"></i></span><span class="pc">34%</span></div>
+        <div class="row"><span class="lb">Information gaps amplify disruption</span><span class="tk"><i class="fl" style="width:79%"></i></span><span class="pc">27%</span></div>
+        <div class="row"><span class="lb">Missed transfers change trip choices</span><span class="tk"><i class="fl" style="width:53%"></i></span><span class="pc">18%</span></div>
+        <div class="row"><span class="lb">Clear alternatives support recovery</span><span class="tk"><i class="fl" style="width:35%"></i></span><span class="pc">12%</span></div>
+        <div class="row"><span class="lb">Other reliability narratives</span><span class="tk"><i class="fl muted" style="width:26%"></i></span><span class="pc">9%</span></div>
+      </div>
+      <div class="foot">Share of posts/comments assigned to each standardized narrative.</div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="k">Emotion signal</div>
+        <h3>How the conversation feels</h3>
+        <div class="emo">
+          <i style="width:42%;background:#9fe036"></i>
+          <i style="width:17%;background:#6cc23a"></i>
+          <i style="width:14%;background:#3f9e7a"></i>
+          <i style="width:11%;background:#2f7fa5"></i>
+          <i style="width:7%;background:#3d5f7d"></i>
+          <i style="width:9%;background:rgba(255,255,255,.16)"></i>
+        </div>
+        <div class="legend">
+          <span><i style="background:#9fe036"></i><b>42%</b> Frustrated</span>
+          <span><i style="background:#6cc23a"></i>17% Angry</span>
+          <span><i style="background:#3f9e7a"></i>14% Tense</span>
+        </div>
+        <div class="foot">11% Tired · 7% Calm · 9% other emotions</div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="k">Persona mix</div>
+        <h3>Who is speaking?</h3>
+        <div class="per">
+          <div class="row"><span class="lb">Pragmatic commuter</span><span class="tk"><i class="fl" style="width:100%"></i></span><span class="pc">46%</span></div>
+          <div class="row"><span class="lb">Civic advocate</span><span class="tk"><i class="fl" style="width:52%"></i></span><span class="pc">24%</span></div>
+        </div>
+        <div class="foot">14% individualist drivers · 10% tech skeptics · 6% global benchmarkers</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- meaning -->
+  <div class="seclabel" style="margin-top:34px"><span class="tt">What the signal may mean</span><span class="rule"></span></div>
+  <div class="grid g3" style="margin-top:0">
+    <div class="mean"><div class="no">1</div><h4>Communication is operational.</h4><p>Disruption information may matter nearly as much as on-time performance.</p></div>
+    <div class="mean"><div class="no">2</div><h4>Transfers shape behavior.</h4><p>Uncertainty may be pushing pragmatic commuters toward backup modes.</p></div>
+    <div class="mean"><div class="no">3</div><h4>Recovery is visible.</h4><p>Clear alternatives already appear as a positive counter-narrative.</p></div>
+  </div>
+
+  <!-- quote -->
+  <div class="quote">
+    <div class="k">Illustrative narrative synthesis</div>
+    <p>“The problem isn't one late bus — it's not knowing if the next one will come, or whether I'll miss my connection.”</p>
+  </div>
+
+  <!-- LOCKED -->
+  <div class="lockedwrap">
+    <div class="seclabel">
+      <span class="tt">In a custom pulsur study</span>
+      <span class="badge"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Not in the free snapshot</span>
+      <span class="rule"></span>
+    </div>
+    <div class="grid g3" style="margin-top:0">
+      <div class="card locked">
+        <div class="blur">
+          <div class="k">Route &amp; time</div><h3>Where and when it breaks</h3>
+          <div class="fakerow"><span>Line 165 · PM peak</span><b style="color:var(--ink)">-18</b></div>
+          <div class="fakerow"><span>Orange Line · AM peak</span><b style="color:var(--ink)">-11</b></div>
+          <div class="fakerow"><span>Line 51 · weekends</span><b style="color:var(--ink)">-7</b></div>
+        </div>
+        <div class="veil">
+          <div class="lockring"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+          <div class="lt">Route &amp; time patterns</div>
+          <div class="ls">Pinpoint the lines, stops and hours driving the signal.</div>
+          <span class="unlock">Unlock →</span>
+        </div>
+      </div>
+
+      <div class="card locked">
+        <div class="blur">
+          <div class="k">Crosstab</div><h3>Persona × emotion</h3>
+          <div class="fakerow"><span>Commuter × frustrated</span><b style="color:var(--ink)">31%</b></div>
+          <div class="fakerow"><span>Advocate × angry</span><b style="color:var(--ink)">19%</b></div>
+          <div class="fakerow"><span>Driver × skeptical</span><b style="color:var(--ink)">12%</b></div>
+        </div>
+        <div class="veil">
+          <div class="lockring"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+          <div class="lt">Persona × emotion</div>
+          <div class="ls">See exactly which audience feels what, and why.</div>
+          <span class="unlock">Unlock →</span>
+        </div>
+      </div>
+
+      <div class="card locked">
+        <div class="blur">
+          <div class="k">Evidence</div><h3>Verbatim quotes</h3>
+          <div class="fakerow"><span>“Waited 25 min, no alert…”</span></div>
+          <div class="fakerow"><span>“Missed my transfer again”</span></div>
+          <div class="fakerow"><span>“App said 4 min for 20 min”</span></div>
+        </div>
+        <div class="veil">
+          <div class="lockring"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+          <div class="lt">Verbatim evidence</div>
+          <div class="ls">The real sentences behind every number.</div>
+          <span class="unlock">Unlock →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div>
+      <h2>A free snapshot shows the signal. A custom study explains why.</h2>
+      <p>Go deeper with route &amp; time patterns, persona × emotion crosstabs, verbatim evidence, city comparisons and continuous monitoring.</p>
+      <div class="tags">✓ Route &amp; time patterns &nbsp;&nbsp; ✓ Comparisons &nbsp;&nbsp; ✓ Continuous monitoring</div>
+    </div>
+    <button class="btn btn-white">Request the Montreal deep dive →</button>
+  </div>
+
+  <footer>
+    <span>Illustrative fictive data · Public online conversations · Not statistically representative of all Montreal residents</span>
+    <span>pulsur.ai · © 2026 Urban Innovate</span>
+  </footer>
+
+</div>
+</body>
+</html>
