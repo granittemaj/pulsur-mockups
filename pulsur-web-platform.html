@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulsur — The platform</title>
+<meta name="description" content="Always-on public conversation intelligence for your transport network — monitoring, alerts, comparisons and verbatim evidence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#1a7fa8;--teal-b:#2ba0ce;--green:#7ec827;--green-d:#5e9a1a;
+  --grad:linear-gradient(125deg,#155f80 0%,#1a7fa8 38%,#2ba0ce 64%,#7ec827 120%);
+  --grad-soft:linear-gradient(120deg,#2ba0ce,#7ec827);--r:18px}
+.t-dark{--bg:#070d15;--ink:#eef5fb;--ink2:#aebfce;--ink3:#7d95a8;--border:rgba(255,255,255,.09);--border2:rgba(255,255,255,.17);
+  --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));--sh:0 20px 50px -28px rgba(0,0,0,.9);
+  --accent:#63c6ea;--accent2:#9fe036;background:var(--bg);color:var(--ink2)}
+.t-light{--bg:#f4f8fb;--ink:#0e2133;--ink2:#3c5267;--ink3:#6d879d;--border:#e0eaf1;--border2:#cddeea;
+  --card:#fff;--sh:0 18px 44px -26px rgba(16,34,52,.28);--accent:#1a7fa8;--accent2:#5e9a1a;background:var(--bg);color:var(--ink2)}
+.t-paper{--bg:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Inter',sans-serif;line-height:1.62;-webkit-font-smoothing:antialiased;background:#070d15;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Sora',sans-serif;margin:0;color:var(--ink);line-height:1.14;letter-spacing:-.025em}
+p{margin:0}a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 26px;position:relative;z-index:2}
+section{padding:100px 0}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent2);display:inline-flex;align-items:center;gap:11px}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--accent2);border-radius:2px}
+.eyebrow.c{justify-content:center}
+.sechead{text-align:center;max-width:780px;margin:0 auto 48px}
+.sechead h2{font-size:clamp(28px,4.2vw,44px);font-weight:800;margin:16px 0 0}
+.sechead h2 em{font-style:normal;background:var(--grad-soft);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sechead p{font-size:17px;color:var(--ink2);margin:18px auto 0;max-width:58ch}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:inherit;font-weight:600;font-size:15px;padding:14px 25px;border-radius:12px;border:1.6px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s,background .25s,border-color .2s;line-height:1}
+.btn-pulse{background:var(--grad);color:#fff;background-size:180% 180%;box-shadow:0 14px 34px -12px rgba(43,160,206,.55)}
+.btn-pulse:hover{transform:translateY(-2px);background-position:100% 0}
+.btn-out{background:transparent;color:var(--accent);border-color:var(--border2)}
+.btn-out:hover{border-color:var(--teal-b);transform:translateY(-2px)}
+.btn-white{background:#fff;color:#0e2133}.btn-white:hover{transform:translateY(-2px)}
+.btn-sm{font-size:13.5px;padding:10px 18px}.btn-lg{font-size:17px;padding:17px 32px}
+
+.nav{position:sticky;top:0;z-index:70;background:rgba(7,13,21,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.09)}
+.nav-in{max-width:1160px;margin:0 auto;padding:15px 26px;display:flex;align-items:center;gap:26px}
+.brand{display:flex;align-items:center;gap:9px}
+.brand img{height:27px;width:auto;display:block}
+.brand .wm{font-family:'Sora';font-weight:800;font-size:22px;color:#eef5fb;letter-spacing:-.02em}
+.brand .wm b{background:var(--grad-soft);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .pd{width:7px;height:7px;border-radius:50%;background:#7ec827;box-shadow:0 0 0 4px rgba(126,200,39,.16);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(126,200,39,.16)}50%{box-shadow:0 0 0 8px rgba(126,200,39,.02)}}
+.links{display:flex;gap:2px;margin-left:8px}
+.links a{font-size:14px;font-weight:500;color:#aebfce;padding:9px 14px;border-radius:9px}
+.links a:hover,.links a.on{background:rgba(255,255,255,.07);color:#fff}
+.sp{flex:1}.navcta{display:flex;gap:9px;align-items:center}
+
+/* hero */
+.hero{position:relative;padding:92px 0 76px;text-align:center;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(1100px 560px at 50% -6%,rgba(43,160,206,.22),transparent 62%),radial-gradient(800px 500px at 12% 96%,rgba(126,200,39,.12),transparent 60%)}
+.pill{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;color:#aebfce;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);padding:8px 16px;border-radius:999px}
+.pill i{width:7px;height:7px;border-radius:50%;background:#7ec827;animation:pulse 2s infinite}
+.hero h1{font-size:clamp(34px,6vw,62px);font-weight:800;letter-spacing:-.034em;margin:24px auto 0;max-width:17ch;color:#fff}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,#4ec6f0,#8fdb35);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lede{font-size:clamp(17px,2vw,19px);color:#aebfce;margin:24px auto 0;max-width:58ch;font-weight:300}
+.hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+
+/* dashboard showcase */
+.shot{border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:0 40px 90px -34px rgba(0,0,0,.9);background:var(--card)}
+.shot .chrome{display:flex;align-items:center;gap:8px;padding:14px 20px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.03)}
+.shot .chrome i{width:11px;height:11px;border-radius:50%;display:block}
+.shot .chrome .t{margin-left:12px;font-size:12.5px;color:var(--ink3)}
+.shot .chrome .live{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--accent2);display:flex;align-items:center;gap:7px}
+.shot .chrome .live i{width:7px;height:7px;background:#7ec827;animation:pulse 2s infinite}
+.shot .body{padding:26px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{border:1px solid var(--border);border-radius:14px;padding:18px;background:rgba(255,255,255,.03)}
+.kpi .k{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.kpi .v{font-family:'Sora';font-weight:800;font-size:26px;color:var(--ink);margin-top:6px}
+.kpi .v.g{background:var(--grad-soft);-webkit-background-clip:text;background-clip:text;color:transparent}
+.kpi .d{font-size:12px;color:var(--ink3);margin-top:4px}
+.alertrow{display:flex;align-items:center;gap:12px;margin-top:16px;padding:16px 18px;border-radius:14px;background:rgba(126,200,39,.09);border:1px solid rgba(126,200,39,.28)}
+.alertrow .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(126,200,39,.18);flex:none}
+.alertrow .tx{font-size:14px;color:var(--ink2)}.alertrow .tx b{color:var(--ink)}
+
+/* feature grid */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.f{border:1px solid var(--border);border-radius:var(--r);padding:26px;background:var(--card);box-shadow:var(--sh);transition:transform .25s}
+.f:hover{transform:translateY(-5px)}
+.f .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:rgba(26,127,168,.1);margin-bottom:15px}
+.f h4{font-size:17px;margin-bottom:7px}.f p{font-size:14px;color:var(--ink3)}
+
+/* method */
+.method{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--card)}
+.m{padding:28px 24px;border-right:1px solid var(--border)}
+.m:last-child{border-right:0}
+.m .no{font-family:'Sora';font-weight:800;font-size:13px;color:var(--accent);margin-bottom:12px}
+.m h4{font-size:16px;margin-bottom:7px}.m p{font-size:13.5px;color:var(--ink3)}
+.caveat{margin-top:22px;border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:0 12px 12px 0;padding:18px 22px;background:var(--card);font-size:14px;color:var(--ink2)}
+.caveat b{color:var(--ink)}
+
+/* deliverables */
+.dl{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.d{border:1px solid var(--border);border-radius:var(--r);padding:28px;background:var(--card);box-shadow:var(--sh)}
+.d h4{font-size:19px;margin-bottom:10px}
+.d ul{list-style:none;margin:14px 0 0;padding:0}
+.d li{display:flex;gap:11px;padding:9px 0;border-top:1px solid var(--border);font-size:14.5px;color:var(--ink2)}
+.d li:first-child{border-top:0}
+.d li svg{width:15px;height:15px;flex:none;margin-top:4px;fill:none;stroke-width:2.6;stroke:var(--accent2)}
+
+.final{position:relative;overflow:hidden;border-radius:28px;padding:70px 44px;text-align:center;background:var(--grad);background-size:160% 160%;box-shadow:0 40px 90px -34px rgba(43,160,206,.65)}
+.final::after{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 50% 0%,rgba(255,255,255,.2),transparent 70%);pointer-events:none}
+.final h2{position:relative;color:#fff;font-size:clamp(27px,4.4vw,44px);font-weight:800;max-width:21ch;margin:0 auto}
+.final p{position:relative;color:rgba(255,255,255,.94);font-size:17px;margin:20px auto 0;max-width:52ch}
+.final .cta{position:relative;margin-top:32px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+footer{padding:60px 0 70px;color:#7d95a8;font-size:13.5px;border-top:1px solid rgba(255,255,255,.09)}
+.fgrid{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.fgrid .fl a{display:block;color:#7d95a8;padding:4px 0}.fgrid .fl a:hover{color:#aebfce}
+.fh{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#aebfce;margin-bottom:10px}
+.fbot{margin-top:38px;padding-top:22px;border-top:1px solid rgba(255,255,255,.09);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px}
+
+@media (max-width:980px){.kpis{grid-template-columns:repeat(2,1fr)}.feat,.dl{grid-template-columns:1fr}.method{grid-template-columns:1fr}.m{border-right:0;border-bottom:1px solid var(--border)}.links{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+  <a class="brand" href="pulsur-web-home.html">
+    <img src="assets/pulsur-logo.png" alt="pulsur" onload="var w=document.getElementById('wm');if(w)w.style.display='none'" onerror="this.remove()">
+    <span class="wm" id="wm">p<b>ulsur</b></span><span class="pd"></span>
+  </a>
+  <div class="links">
+    <a class="on" href="pulsur-web-platform.html">Platform</a>
+    <a href="pulsur-web-home.html#how">How it works</a>
+    <a href="pulsur-web-home.html#plans">Plans</a>
+    <a href="pulsur-web-home.html#cities">Cities</a>
+  </div>
+  <span class="sp"></span>
+  <div class="navcta">
+    <a class="btn btn-out btn-sm" style="color:#aebfce" href="pulsur-web-contact.html">Talk to our team</a>
+    <a class="btn btn-pulse btn-sm" href="pulsur-flow-v2.html">Free snapshot →</a>
+  </div>
+</div></nav>
+
+<!-- HERO dark -->
+<header class="hero t-dark">
+  <div class="wrap">
+    <span class="pill"><i></i> Enterprise · annual licence</span>
+    <h1>Always-on intelligence for <em>your whole network.</em></h1>
+    <p class="lede">The free snapshot is one city, one moment. The platform watches every city you operate in — continuously — and tells you the moment a narrative starts to move.</p>
+    <div class="cta">
+      <a class="btn btn-pulse btn-lg" href="pulsur-web-contact.html">Talk to our team →</a>
+      <a class="btn btn-out btn-lg" style="color:#aebfce" href="pulsur-flow-v2.html">Try the free snapshot</a>
+    </div>
+  </div>
+</header>
+
+<!-- DASHBOARD dark -->
+<section class="t-dark" style="padding-top:0">
+  <div class="wrap">
+    <div class="shot rv">
+      <div class="chrome"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
+        <span class="t">pulsur platform — Montreal network overview</span><span class="live"><i></i> LIVE</span></div>
+      <div class="body">
+        <div class="kpis">
+          <div class="kpi"><div class="k">Sentiment index</div><div class="v">74.2</div><div class="d">▲ 2.1 vs last period</div></div>
+          <div class="kpi"><div class="k">Conversations</div><div class="v">12,480</div><div class="d">▲ 18% this month</div></div>
+          <div class="kpi"><div class="k">Emotional intensity</div><div class="v g">73%</div><div class="d">frustrated / angry / tense</div></div>
+          <div class="kpi"><div class="k">Active narratives</div><div class="v">6</div><div class="d">2 rising this week</div></div>
+        </div>
+        <div class="alertrow">
+          <span class="ic">🔔</span>
+          <div class="tx"><b>Alert · 42 min ago</b> — new narrative detected: “night service gaps” is up 210% week-over-week on Line 51.</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:28px" class="rv">
+      <a class="btn btn-out" style="color:#63c6ea" href="pulsur-dashboard-v2.html">Open the full dashboard →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES light -->
+<section class="t-light">
+  <div class="wrap">
+    <div class="sechead rv">
+      <div class="eyebrow c">Capabilities</div>
+      <h2>Everything the snapshot leaves out.</h2>
+      <p>The free snapshot answers one question, once. The platform answers every question, continuously.</p>
+    </div>
+    <div class="feat">
+      <div class="f rv"><div class="ic">📡</div><h4>Continuous monitoring</h4><p>Your cities tracked daily — no re-running reports, no waiting for the next survey cycle.</p></div>
+      <div class="f rv"><div class="ic">🔔</div><h4>Narrative alerts</h4><p>Get notified the moment a new theme starts trending, before it reaches the press.</p></div>
+      <div class="f rv"><div class="ic">🗺</div><h4>Route &amp; time patterns</h4><p>Pinpoint the specific lines, stops and hours driving the signal.</p></div>
+      <div class="f rv"><div class="ic">👥</div><h4>Persona × emotion</h4><p>Cross-tabulate who feels what — commuters, students, accessibility users and more.</p></div>
+      <div class="f rv"><div class="ic">💬</div><h4>Verbatim evidence</h4><p>Drill from any number straight to the real sentences behind it.</p></div>
+      <div class="f rv"><div class="ic">🔗</div><h4>API &amp; exports</h4><p>Push pulsur data into your BI stack, or pull stakeholder-ready exports.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD light/paper -->
+<section class="t-light t-paper">
+  <div class="wrap">
+    <div class="sechead rv">
+      <div class="eyebrow c">Method</div>
+      <h2>How the analysis <em>actually works.</em></h2>
+      <p>No black box. Here's the pipeline — and what it can and can't tell you.</p>
+    </div>
+    <div class="method rv">
+      <div class="m"><div class="no">01</div><h4>Collect</h4><p>Public online conversations about transportation in your city — forums, social, reviews, comments.</p></div>
+      <div class="m"><div class="no">02</div><h4>Filter</h4><p>Relevance scoring strips noise, spam and off-topic chatter before anything is analysed.</p></div>
+      <div class="m"><div class="no">03</div><h4>Classify</h4><p>Each post is assigned standardized narratives, one of 12 emotion classes, and a rider persona.</p></div>
+      <div class="m"><div class="no">04</div><h4>Synthesize</h4><p>Patterns are aggregated into the signal, with evidence counts and verbatim traceability.</p></div>
+    </div>
+    <div class="caveat rv">
+      ⚖️ <b>What this is not.</b> pulsur measures public online conversation — people who chose to post. It is not a representative survey of all residents, and we say so on every deliverable. Use it to find signals and explain <b>why</b>, alongside your ridership and survey data — not instead of them.
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES light -->
+<section class="t-light">
+  <div class="wrap">
+    <div class="sechead rv">
+      <div class="eyebrow c">Two ways to work with us</div>
+      <h2>A study, or the platform.</h2>
+    </div>
+    <div class="dl">
+      <div class="d rv">
+        <h4>Custom study</h4>
+        <p style="font-size:14.5px;color:var(--ink3)">A one-off deep dive on a specific question, delivered by our analysts.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Any city, any mode, any date range</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Scoped to your question, not a template</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Stakeholder-ready report and live readout</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Typical turnaround: 2–3 weeks</li>
+        </ul>
+        <a class="btn btn-out" style="width:100%;margin-top:20px" href="pulsur-web-contact.html">Discuss a study</a>
+      </div>
+      <div class="d rv">
+        <h4>Platform licence</h4>
+        <p style="font-size:14.5px;color:var(--ink3)">Continuous access for your team, across every city you operate in.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Always-on dashboard &amp; alerts</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Unlimited seats for your organization</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> API access and data exports</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Dedicated analyst &amp; onboarding</li>
+        </ul>
+        <a class="btn btn-pulse" style="width:100%;margin-top:20px" href="pulsur-web-contact.html">Discuss the platform</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL dark -->
+<section class="t-dark" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="final rv">
+      <h2>Let's talk about your network.</h2>
+      <p>Tell us the question you're trying to answer. We'll tell you honestly whether pulsur can answer it.</p>
+      <div class="cta">
+        <a class="btn btn-white btn-lg" href="pulsur-web-contact.html">Talk to our team →</a>
+        <a class="btn btn-lg" style="background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.42)" href="pulsur-flow-v2.html">Start with a free snapshot</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="t-dark"><footer><div class="wrap">
+  <div class="fgrid">
+    <div style="max-width:300px">
+      <div class="brand" style="margin-bottom:14px"><span class="wm">p<b>ulsur</b></span><span class="pd"></span></div>
+      <p style="font-size:13.5px">Public conversation intelligence for transportation. A product of Urban Innovate.</p>
+    </div>
+    <div class="fl"><div class="fh">Product</div><a href="pulsur-web-platform.html">Platform</a><a href="pulsur-web-home.html#how">How it works</a><a href="pulsur-web-home.html#plans">Plans</a></div>
+    <div class="fl"><div class="fh">Company</div><a href="#">About Urban Innovate</a><a href="#">Research</a><a href="pulsur-web-contact.html">Contact</a></div>
+    <div class="fl"><div class="fh">Legal</div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Method &amp; limitations</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 Urban Innovate · pulsur.ai</span><span>Insights derive from public online conversations · not statistically representative</span></div>
+</div></footer></div>
+
+<script>
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.14});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>

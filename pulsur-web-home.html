@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulsur — What is your city really saying about transportation?</title>
+<meta name="description" content="pulsur turns millions of public online conversations into measurable insight on how people experience transportation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+/* ============ pulsur design system — two modes ============ */
+:root{
+  --teal:#1a7fa8; --teal-b:#2ba0ce; --green:#7ec827; --green-d:#5e9a1a;
+  --grad:linear-gradient(125deg,#155f80 0%,#1a7fa8 38%,#2ba0ce 64%,#7ec827 120%);
+  --grad-soft:linear-gradient(120deg,#2ba0ce,#7ec827);
+  --r:18px;
+}
+/* DARK mode surface */
+.t-dark{
+  --bg:#070d15; --ink:#eef5fb; --ink2:#aebfce; --ink3:#7d95a8;
+  --border:rgba(255,255,255,.09); --border2:rgba(255,255,255,.17);
+  --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));
+  --sh:0 20px 50px -28px rgba(0,0,0,.9);
+  --accent:#63c6ea; --accent2:#9fe036;
+  background:var(--bg); color:var(--ink2);
+}
+/* LIGHT mode surface */
+.t-light{
+  --bg:#f4f8fb; --ink:#0e2133; --ink2:#3c5267; --ink3:#6d879d;
+  --border:#e0eaf1; --border2:#cddeea;
+  --card:#ffffff;
+  --sh:0 18px 44px -26px rgba(16,34,52,.28);
+  --accent:#1a7fa8; --accent2:#5e9a1a;
+  background:var(--bg); color:var(--ink2);
+}
+.t-paper{--bg:#ffffff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; font-family:'Inter',sans-serif; line-height:1.62; -webkit-font-smoothing:antialiased; background:#070d15; overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Sora',sans-serif; margin:0; color:var(--ink); line-height:1.14; letter-spacing:-.025em}
+p{margin:0}
+a{color:inherit; text-decoration:none}
+.wrap{max-width:1160px; margin:0 auto; padding:0 26px; position:relative; z-index:2}
+section{padding:104px 0}
+.eyebrow{font-size:12px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--accent2); display:inline-flex; align-items:center; gap:11px}
+.eyebrow::before{content:""; width:28px;height:2px; background:var(--accent2); border-radius:2px}
+.eyebrow.c{justify-content:center}
+.sechead{text-align:center; max-width:780px; margin:0 auto 48px}
+.sechead h2{font-size:clamp(29px,4.4vw,46px); font-weight:800; margin:16px 0 0}
+.sechead h2 em{font-style:normal; background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.sechead p{font-size:17px; color:var(--ink2); margin:18px auto 0; max-width:58ch}
+.rv{opacity:0; transform:translateY(26px); transition:opacity .85s cubic-bezier(.2,.7,.2,1), transform .85s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1; transform:none}
+
+/* buttons */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:9px; font-family:inherit; font-weight:600; font-size:15px; padding:14px 25px; border-radius:12px; border:1.6px solid transparent; cursor:pointer; transition:transform .2s, box-shadow .2s, background .25s, border-color .2s; line-height:1}
+.btn:active{transform:translateY(1px)}
+.btn-pulse{background:var(--grad); color:#fff; background-size:180% 180%; box-shadow:0 14px 34px -12px rgba(43,160,206,.55)}
+.btn-pulse:hover{transform:translateY(-2px); background-position:100% 0; box-shadow:0 20px 46px -12px rgba(43,160,206,.7)}
+.btn-out{background:transparent; color:var(--accent); border-color:var(--border2)}
+.btn-out:hover{border-color:var(--teal-b); transform:translateY(-2px)}
+.btn-white{background:#fff; color:#0e2133}
+.btn-white:hover{transform:translateY(-2px); box-shadow:0 18px 38px -14px rgba(0,0,0,.5)}
+.btn-ink{background:#0e2133; color:#fff}
+.btn-ink:hover{transform:translateY(-2px)}
+.btn-sm{font-size:13.5px; padding:10px 18px}
+.btn-lg{font-size:17px; padding:17px 32px}
+
+/* ============ NAV ============ */
+.nav{position:sticky; top:0; z-index:70; background:rgba(7,13,21,.78); backdrop-filter:blur(18px); border-bottom:1px solid rgba(255,255,255,.09)}
+.nav-in{max-width:1160px; margin:0 auto; padding:15px 26px; display:flex; align-items:center; gap:26px}
+.brand{display:flex; align-items:center; gap:9px}
+.brand img{height:27px;width:auto;display:block}
+.brand .wm{font-family:'Sora'; font-weight:800; font-size:22px; color:#eef5fb; letter-spacing:-.02em}
+.brand .wm b{background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.brand .pd{width:7px;height:7px;border-radius:50%; background:#7ec827; box-shadow:0 0 0 4px rgba(126,200,39,.16); animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(126,200,39,.16)}50%{box-shadow:0 0 0 8px rgba(126,200,39,.02)}}
+.links{display:flex; gap:2px; margin-left:8px}
+.links a{font-size:14px; font-weight:500; color:#aebfce; padding:9px 14px; border-radius:9px; transition:.18s}
+.links a:hover{background:rgba(255,255,255,.07); color:#fff}
+.sp{flex:1}
+.navcta{display:flex; gap:9px; align-items:center}
+
+/* ============ HERO (dark) ============ */
+.hero{position:relative; padding:104px 0 78px; text-align:center; overflow:hidden}
+#bg{position:absolute; inset:0; width:100%; height:100%; z-index:0; opacity:.9}
+.hero::after{content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:radial-gradient(1200px 620px at 50% -4%, rgba(43,160,206,.22), transparent 62%),
+             radial-gradient(900px 540px at 10% 96%, rgba(126,200,39,.13), transparent 60%)}
+.pill{display:inline-flex; align-items:center; gap:9px; font-size:12.5px; font-weight:600; color:#aebfce; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); padding:8px 16px; border-radius:999px; backdrop-filter:blur(6px)}
+.pill i{width:7px;height:7px;border-radius:50%;background:#7ec827; animation:pulse 2s infinite}
+.hero h1{font-size:clamp(38px,7vw,74px); font-weight:800; letter-spacing:-.035em; margin:26px auto 0; max-width:15ch; color:#fff}
+.hero h1 em{font-style:normal; background:linear-gradient(100deg,#4ec6f0,#8fdb35); -webkit-background-clip:text; background-clip:text; color:transparent}
+.hero .lede{font-size:clamp(17px,2vw,20px); color:#aebfce; margin:26px auto 0; max-width:58ch; font-weight:300}
+.hero .cta{display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:38px}
+.hero .fine{font-size:13.5px; color:#7d95a8; margin-top:18px}
+
+/* ticker */
+.ticker{position:relative; z-index:2; margin-top:56px; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.ticker .track{display:flex; gap:12px; width:max-content; animation:slide 46s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.ticker q{display:inline-flex; align-items:center; gap:9px; font-family:'Newsreader',Georgia,serif; font-style:italic; font-size:15px; color:#aebfce; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.09); padding:11px 18px; border-radius:999px; white-space:nowrap}
+.ticker q::before{content:""; width:6px;height:6px;border-radius:50%; flex:none}
+.ticker q.n::before{background:#ff6f67} .ticker q.p::before{background:#8fdb35} .ticker q.u::before{background:#2ba0ce}
+
+/* stat strip */
+.strip{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.09); border-radius:18px; overflow:hidden; margin-top:56px}
+.strip > div{background:#0a121c; padding:26px 20px; text-align:center}
+.strip .v{font-family:'Sora'; font-weight:800; font-size:clamp(25px,3.2vw,36px); color:#fff; letter-spacing:-.02em}
+.strip .v em{font-style:normal; background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+.strip .k{font-size:12.5px; color:#7d95a8; margin-top:6px}
+
+/* ============ CONTRAST (light) ============ */
+.vs{display:grid; grid-template-columns:1fr auto 1fr; gap:26px; align-items:stretch}
+.vs .side{border:1px solid var(--border); border-radius:20px; padding:34px; background:var(--card); box-shadow:var(--sh)}
+.vs .side.old{background:transparent; box-shadow:none; border-style:dashed}
+.vs .side .k{font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink3)}
+.vs .side.new .k{color:var(--green-d)}
+.vs .side h3{font-size:25px; margin:14px 0 0}
+.vs .side p{font-size:15.5px; margin:14px 0 0; color:var(--ink2)}
+.vs .side ul{list-style:none; margin:20px 0 0; padding:0}
+.vs .side li{display:flex; gap:11px; padding:10px 0; font-size:14.5px; border-top:1px solid var(--border)}
+.vs .side li:first-child{border-top:0}
+.vs .mid{display:grid; place-items:center}
+.vs .mid span{font-family:'Sora'; font-weight:800; font-size:14px; color:var(--ink3); background:var(--bg); border:1px solid var(--border); width:52px;height:52px;border-radius:50%; display:grid; place-items:center}
+
+/* steps */
+.steps{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+.step{background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:26px; box-shadow:var(--sh); transition:transform .25s, box-shadow .25s}
+.step:hover{transform:translateY(-6px)}
+.step .no{width:34px;height:34px;border-radius:11px; display:grid; place-items:center; font-family:'Sora'; font-weight:700; font-size:14px; color:#0c1a27; background:var(--grad-soft); margin-bottom:16px}
+.step h4{font-size:17px; margin-bottom:8px}
+.step p{font-size:14px; color:var(--ink3)}
+
+/* ============ DEMO (dark) ============ */
+.demo{border:1px solid var(--border); border-radius:24px; background:var(--card); box-shadow:var(--sh); overflow:hidden}
+.demo .chrome{display:flex; align-items:center; gap:8px; padding:15px 20px; border-bottom:1px solid var(--border); background:rgba(255,255,255,.03)}
+.demo .chrome i{width:11px;height:11px;border-radius:50%;display:block}
+.demo .chrome .t{margin-left:12px; font-size:12.5px; color:var(--ink3)}
+.demo .chrome .live{margin-left:auto; font-size:11.5px; font-weight:700; color:var(--accent2); display:flex; align-items:center; gap:7px}
+.demo .chrome .live i{width:7px;height:7px;background:#7ec827; animation:pulse 2s infinite}
+.citytabs{display:flex; gap:8px; padding:20px 26px 0; flex-wrap:wrap}
+.citytabs button{font-family:inherit; font-size:13.5px; font-weight:600; color:var(--ink3); background:rgba(255,255,255,.05); border:1px solid var(--border); padding:9px 16px; border-radius:999px; cursor:pointer; transition:.2s}
+.citytabs button:hover{color:var(--ink)}
+.citytabs button.on{background:var(--grad-soft); color:#0c1a27; border-color:transparent}
+.demo .body{padding:24px 26px 30px}
+.sig{border-radius:0 14px 14px 0; border-left:3px solid #8fdb35; background:linear-gradient(135deg, rgba(126,200,39,.11), rgba(43,160,206,.07)); padding:22px 26px}
+.sig .k{font-size:11px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--accent2)}
+.sig h3{font-size:clamp(19px,2.4vw,25px); margin-top:10px}
+.dgrid{display:grid; grid-template-columns:1.3fr 1fr; gap:18px; margin-top:20px}
+.dcard{border:1px solid var(--border); border-radius:16px; padding:20px; background:rgba(255,255,255,.025)}
+.dcard .k{font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent2)}
+.dcard h4{font-size:16px; margin:8px 0 16px}
+.nb{display:flex; flex-direction:column; gap:13px}
+.nb .row{display:grid; grid-template-columns:1fr 120px 40px; align-items:center; gap:12px}
+.nb .lb{font-size:13.5px; color:var(--ink2)}
+.nb .tk{height:10px; background:rgba(255,255,255,.08); border-radius:99px; overflow:hidden}
+.nb .fl{display:block; height:100%; border-radius:99px; background:var(--grad-soft); width:0; transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.nb .pc{font-family:'Sora'; font-weight:700; font-size:14px; color:var(--ink); text-align:right}
+.dstats{display:grid; gap:12px}
+.ds{border:1px solid var(--border); border-radius:14px; padding:16px 18px; background:rgba(255,255,255,.025)}
+.ds .k{font-size:10.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3)}
+.ds .v{font-family:'Sora'; font-weight:800; font-size:27px; color:var(--ink); margin-top:5px}
+.ds .v.g{background:var(--grad-soft); -webkit-background-clip:text; background-clip:text; color:transparent}
+
+/* ============ PLANS (light) ============ */
+.plans{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; align-items:start}
+.plan{border:1px solid var(--border); border-radius:22px; padding:30px; background:var(--card); box-shadow:var(--sh); display:flex; flex-direction:column; height:100%}
+.plan.feat{background:#0b1522; border-color:transparent; box-shadow:0 30px 70px -30px rgba(16,34,52,.5); position:relative; overflow:hidden}
+.plan.feat::before{content:""; position:absolute; top:0;left:0;right:0;height:3px; background:var(--grad)}
+.plan.feat h3,.plan.feat .price{color:#fff}
+.plan.feat li{color:#aebfce; border-color:rgba(255,255,255,.1)}
+.plan.feat .sub{color:#7d95a8}
+.plan .tag{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:6px 13px; border-radius:999px; margin-bottom:16px; align-self:flex-start}
+.plan.free .tag{background:rgba(126,200,39,.16); color:var(--green-d)}
+.plan.feat .tag{background:var(--grad-soft); color:#0c1a27}
+.plan.ent .tag{background:rgba(26,127,168,.12); color:var(--teal)}
+.plan h3{font-size:23px; margin-bottom:5px}
+.plan .price{font-family:'Sora'; font-weight:700; font-size:17px; color:var(--ink); margin-bottom:4px}
+.plan .sub{font-size:13.5px; color:var(--ink3); margin-bottom:20px}
+.plan ul{list-style:none; margin:0 0 22px; padding:0; flex:1}
+.plan li{display:flex; gap:11px; padding:10px 0; border-top:1px solid var(--border); font-size:14px; color:var(--ink2)}
+.plan li:first-child{border-top:0}
+.plan li svg{width:15px;height:15px;flex:none;margin-top:4px;fill:none;stroke-width:2.6;stroke:var(--accent2)}
+.plan.feat li svg{stroke:#8fdb35}
+.plan .btn{width:100%}
+
+/* audiences */
+.aud{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+.a{border:1px solid var(--border); border-radius:var(--r); padding:26px; background:var(--card); box-shadow:var(--sh); transition:transform .25s}
+.a:hover{transform:translateY(-5px)}
+.a .ic{font-size:24px; margin-bottom:14px; display:block}
+.a h4{font-size:17px; margin-bottom:7px}
+.a p{font-size:14px; color:var(--ink3)}
+
+/* cities */
+.cities{display:flex; flex-wrap:wrap; gap:10px; justify-content:center}
+.cities span{font-size:13.5px; font-weight:500; color:var(--ink2); background:var(--card); border:1px solid var(--border); padding:10px 18px; border-radius:999px; transition:.2s}
+.cities span:hover{border-color:var(--teal-b); transform:translateY(-2px)}
+.cities span.hi{background:var(--grad-soft); color:#0c1a27; border-color:transparent; font-weight:700}
+.cities span.req{border-style:dashed; color:var(--teal)}
+
+/* final */
+.final{position:relative; overflow:hidden; border-radius:28px; padding:72px 44px; text-align:center; background:var(--grad); background-size:160% 160%; box-shadow:0 40px 90px -34px rgba(43,160,206,.65)}
+.final::after{content:""; position:absolute; inset:0; background:radial-gradient(600px 300px at 50% 0%, rgba(255,255,255,.2), transparent 70%); pointer-events:none}
+.final h2{position:relative; color:#fff; font-size:clamp(28px,4.6vw,46px); font-weight:800; max-width:20ch; margin:0 auto}
+.final p{position:relative; color:rgba(255,255,255,.94); font-size:17px; margin:20px auto 0; max-width:54ch}
+.final .cta{position:relative; margin-top:34px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
+
+footer{padding:60px 0 70px; color:#7d95a8; font-size:13.5px; border-top:1px solid rgba(255,255,255,.09)}
+.fgrid{display:flex; justify-content:space-between; gap:26px; flex-wrap:wrap; align-items:flex-start}
+.fgrid .fl a{display:block; color:#7d95a8; padding:4px 0}
+.fgrid .fl a:hover{color:#aebfce}
+.fh{font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#aebfce; margin-bottom:10px}
+.fbot{margin-top:38px; padding-top:22px; border-top:1px solid rgba(255,255,255,.09); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12.5px}
+
+@media (max-width:980px){
+  .strip{grid-template-columns:repeat(2,1fr)} .steps{grid-template-columns:repeat(2,1fr)}
+  .vs{grid-template-columns:1fr} .vs .mid{display:none}
+  .dgrid,.aud,.plans{grid-template-columns:1fr} .links{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important} .rv{opacity:1; transform:none} #bg{display:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav"><div class="nav-in">
+  <a class="brand" href="#top">
+    <img src="assets/pulsur-logo.png" alt="pulsur" onload="var w=document.getElementById('wm');if(w)w.style.display='none'" onerror="this.remove()">
+    <span class="wm" id="wm">p<b>ulsur</b></span><span class="pd"></span>
+  </a>
+  <div class="links">
+    <a href="pulsur-web-platform.html">Platform</a>
+    <a href="#how">How it works</a>
+    <a href="#plans">Plans</a>
+    <a href="#cities">Cities</a>
+  </div>
+  <span class="sp"></span>
+  <div class="navcta">
+    <a class="btn btn-out btn-sm" style="color:#aebfce" href="pulsur-web-contact.html">Talk to our team</a>
+    <a class="btn btn-pulse btn-sm" href="pulsur-flow-v2.html">Free snapshot →</a>
+  </div>
+</div></nav>
+
+<!-- ============ HERO · dark ============ -->
+<header class="hero t-dark" id="top">
+  <canvas id="bg"></canvas>
+  <div class="wrap">
+    <span class="pill"><i></i> 10 cities live · 1.8M conversations analysed</span>
+    <h1>What is your city really saying about <em>transportation?</em></h1>
+    <p class="lede">pulsur turns millions of public online conversations into measurable insight on how people experience transportation — the narratives, the emotions, and the people behind them.</p>
+    <div class="cta">
+      <a class="btn btn-pulse btn-lg" href="pulsur-flow-v2.html">Get your free city snapshot →</a>
+      <a class="btn btn-out btn-lg" style="color:#aebfce" href="pulsur-web-contact.html">Talk to our team</a>
+    </div>
+    <div class="fine">Free snapshot · no login required &nbsp;·&nbsp; Custom studies &amp; platform access by request</div>
+  </div>
+
+  <div class="ticker"><div class="track" id="track"></div></div>
+
+  <div class="wrap">
+    <div class="strip rv">
+      <div><div class="v" id="s1">1.8<em>M</em></div><div class="k">Conversations analysed</div></div>
+      <div><div class="v" id="s2">10</div><div class="k">Cities live today</div></div>
+      <div><div class="v" id="s3">12</div><div class="k">Emotion classes</div></div>
+      <div><div class="v" id="s4">6</div><div class="k">Rider personas</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ WHY · light ============ -->
+<section class="t-light" id="why">
+  <div class="wrap">
+    <div class="sechead rv">
+      <div class="eyebrow c">Why pulsur</div>
+      <h2>Surveys ask 400 people. <em>Your city has already answered.</em></h2>
+      <p>Every day, riders explain exactly what works and what doesn't — in public, unprompted, in their own words. pulsur measures it at scale.</p>
+    </div>
+    <div class="vs">
+      <div class="side old rv">
+        <div class="k">The old way</div>
+        <h3>Traditional surveys</h3>
+        <p>You write the questions, wait months, and hear from the few hundred people willing to answer them.</p>
+        <ul>
+          <li>⏳ Months from question to answer</li>
+          <li>📋 You only learn what you thought to ask</li>
+          <li>👥 Small, self-selected samples</li>
+          <li>💸 Expensive to repeat</li>
+        </ul>
+      </div>
+      <div class="mid"><span>vs</span></div>
+      <div class="side new rv">
+        <div class="k">With pulsur</div>
+        <h3>Public conversation intelligence</h3>
+        <p>Millions of unprompted opinions, already out there — structured into narratives, emotions and personas you can act on.</p>
+        <ul>
+          <li>⚡ A snapshot in minutes, not months</li>
+          <li>🔎 Surfaces issues you didn't think to ask about</li>
+          <li>🌍 Thousands of voices per city</li>
+          <li>🔁 Continuously refreshed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW · light/paper ============ -->
+<section class="t-light t-paper" id="how">
+  <div class="wrap">
+    <div class="sechead rv">
+      <div class="eyebrow c">Start free</div>
+      <h2>From a question to a snapshot in <em>four steps.</em></h2>
+      <p>Ask in plain language. pulsur identifies the city, checks its datasets, and emails you a private link to your free snapshot.</p>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="no">1</div><h4>Ask your question</h4><p>Free text, in your own words. No account, no login, no sales call.</p></div>
+      <div class="step rv"><div class="no">2</div><h4>We identify the city</h4><p>pulsur matches it to a live city and reformulates it into an analysis it can run.</p></div>
+      <div class="step rv"><div class="no">3</div><h4>Confirm the dataset</h4><p>See exactly what we'll analyse — city, mode, topic, evidence and period.</p></div>
+      <div class="step rv"><div class="no">4</div><h4>Check your inbox</h4><p>A private link lands in your email, valid 14 days. One free snapshot per email.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMO · dark ============ -->
+<section class="t-dark" id="product">
+  <div class="wrap">
+    <div class="sechead rv">
+      <div class="eyebrow c">The product</div>
+      <h2>A snapshot that shows <em>the signal.</em></h2>
+      <p>Not a wall of charts — one clear finding, the narratives behind it, and who is saying it. Pick a city to preview.</p>
+    </div>
+    <div class="demo rv">
+      <div class="chrome">
+        <i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
+        <span class="t">pulsur — free city snapshot</span>
+        <span class="live"><i></i> LIVE</span>
+      </div>
+      <div class="citytabs" id="tabs"></div>
+      <div class="body">
+        <div class="sig"><div class="k">The signal</div><h3 id="sigText">Reliability problems are becoming a trust problem.</h3></div>
+        <div class="dgrid">
+          <div class="dcard">
+            <div class="k">Top narratives</div><h4>What is driving the conversation?</h4>
+            <div class="nb" id="bars"></div>
+          </div>
+          <div class="dstats">
+            <div class="ds"><div class="k">Public conversation</div><div class="v" id="d1">1,846</div></div>
+            <div class="ds"><div class="k">Emotional intensity</div><div class="v g" id="d2">73%</div></div>
+            <div class="ds"><div class="k">Dominant persona</div><div class="v" id="d3">46%</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:30px" class="rv">
+      <a class="btn btn-out" style="color:#63c6ea" href="pulsur-snapshot-v2.html">Open a full sample snapshot →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLANS · light ============ -->
+<section class="t-light" id="plans">
+  <div class="wrap">
+    <div class="sechead rv">
+      <div class="eyebrow c">Free &amp; paid</div>
+      <h2>Start free. <em>Go deeper when it matters.</em></h2>
+      <p>The snapshot shows <b>what</b> people are saying. A study explains <b>why</b>. The platform tells you the moment it changes.</p>
+    </div>
+    <div class="plans">
+      <div class="plan free rv">
+        <span class="tag">Free</span>
+        <h3>City snapshot</h3>
+        <div class="price">€0</div>
+        <div class="sub">Self-serve · one city, one email</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Top narratives driving the conversation</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Emotion breakdown</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Persona mix — who is speaking</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> What the signal may mean</li>
+        </ul>
+        <a class="btn btn-out" href="pulsur-flow-v2.html">Get my free snapshot</a>
+      </div>
+
+      <div class="plan feat rv">
+        <span class="tag">Most requested</span>
+        <h3>Custom study</h3>
+        <div class="price">Scoped to your question</div>
+        <div class="sub">One-off deep dive, delivered by our analysts</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Any city, any mode, any date range</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Route &amp; time patterns — where and when it breaks</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Persona × emotion crosstabs</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Verbatim evidence behind every number</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Stakeholder-ready report &amp; readout</li>
+        </ul>
+        <a class="btn btn-pulse" href="pulsur-web-contact.html">Talk to our team →</a>
+      </div>
+
+      <div class="plan ent rv">
+        <span class="tag">Enterprise</span>
+        <h3>pulsur platform</h3>
+        <div class="price">Annual licence</div>
+        <div class="sub">Continuous monitoring for your network</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Always-on dashboard access</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Multi-city &amp; competitor comparison</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Alerts when a narrative starts trending</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> API &amp; data export</li>
+          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Dedicated analyst &amp; onboarding</li>
+        </ul>
+        <a class="btn btn-ink" href="pulsur-web-contact.html">Talk to our team →</a>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:26px; font-size:14px; color:var(--ink3)" class="rv">
+      Not sure which fits? <a href="pulsur-web-contact.html" style="color:var(--teal); font-weight:600">Tell us your question</a> and we'll point you to the right one.
+    </p>
+  </div>
+</section>
+
+<!-- ============ AUDIENCE · light/paper ============ -->
+<section class="t-light t-paper">
+  <div class="wrap">
+    <div class="sechead rv">
+      <div class="eyebrow c">Who it's for</div>
+      <h2>Built for the people who <em>move cities.</em></h2>
+    </div>
+    <div class="aud">
+      <div class="a rv"><span class="ic">🚇</span><h4>Transit agencies &amp; operators</h4><p>Understand why ridership moves — and which service changes riders actually notice.</p></div>
+      <div class="a rv"><span class="ic">🏛</span><h4>Government &amp; regulators</h4><p>Evidence of public experience beyond the consultation room, across every neighbourhood.</p></div>
+      <div class="a rv"><span class="ic">🚕</span><h4>Mobility &amp; AV operators</h4><p>Track perception of safety, price and reliability as you enter or scale a market.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CITIES · light ============ -->
+<section class="t-light" id="cities">
+  <div class="wrap">
+    <div class="sechead rv">
+      <div class="eyebrow c">Coverage</div>
+      <h2>Ten cities live. <em>Yours could be next.</em></h2>
+      <p>Free snapshots are available in these cities today. Custom studies can be run anywhere.</p>
+    </div>
+    <div class="cities rv">
+      <span class="hi">San Francisco</span><span>San Jose</span><span>Baltimore</span><span>Toronto</span><span>Montreal</span>
+      <span>Jacksonville</span><span>Atlanta</span><span>Birmingham</span><span>Washington, DC</span><span>Boston</span>
+      <a href="pulsur-flow-v2.html"><span class="req">+ Request your city</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL · dark ============ -->
+<section class="t-dark" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="final rv">
+      <h2>Find out what your city is really saying.</h2>
+      <p>Start with a free snapshot. Talk to us when you need the full picture.</p>
+      <div class="cta">
+        <a class="btn btn-white btn-lg" href="pulsur-flow-v2.html">Get your free snapshot →</a>
+        <a class="btn btn-lg" style="background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.42)" href="pulsur-web-contact.html">Talk to our team</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="t-dark">
+  <footer><div class="wrap">
+    <div class="fgrid">
+      <div style="max-width:300px">
+        <div class="brand" style="margin-bottom:14px"><span class="wm">p<b>ulsur</b></span><span class="pd"></span></div>
+        <p style="font-size:13.5px">Public conversation intelligence for transportation. A product of Urban Innovate.</p>
+      </div>
+      <div class="fl"><div class="fh">Product</div><a href="pulsur-web-platform.html">Platform</a><a href="#how">How it works</a><a href="#plans">Plans</a><a href="#cities">Cities</a></div>
+      <div class="fl"><div class="fh">Company</div><a href="#">About Urban Innovate</a><a href="#">Research</a><a href="pulsur-web-contact.html">Contact</a></div>
+      <div class="fl"><div class="fh">Legal</div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Method &amp; limitations</a></div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 Urban Innovate · pulsur.ai</span>
+      <span>Insights derive from public online conversations · not statistically representative of all residents</span>
+    </div>
+  </div></footer>
+</div>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.14});
+  document.querySelectorAll('.rv').forEach(function(el){ reduce?el.classList.add('in'):io.observe(el); });
+
+  var QUOTES=[['n','the bus just never showed'],['p','honestly the new line is great'],['u','is the app ever accurate?'],['n','missed my transfer again'],['p','felt safe riding at night'],['n','way too packed at 8am'],['u','why no alert about the delay'],['p','cheaper than driving downtown'],['n','25 minutes in the rain'],['u','does anyone trust the schedule'],['p','driver was so helpful'],['n','fares went up again']];
+  var track=document.getElementById('track');
+  if(track){var h=QUOTES.map(function(q){return '<q class="'+q[0]+'">“'+q[1]+'”</q>';}).join(''); track.innerHTML=h+h;}
+
+  function countUp(el,to,dec,suf){var t0=null;function s(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1400),e=1-Math.pow(1-p,3),v=to*e;el.innerHTML=(dec?v.toFixed(dec):Math.round(v).toLocaleString())+(suf||'');if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);}
+  var strip=document.querySelector('.strip'),done=false;
+  var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!done){done=true;
+    countUp(document.getElementById('s1'),1.8,1,'<em>M</em>');countUp(document.getElementById('s2'),10,0);
+    countUp(document.getElementById('s3'),12,0);countUp(document.getElementById('s4'),6,0);}})},{threshold:.4});
+  if(strip&&!reduce)io2.observe(strip);
+
+  var CITIES={
+    'Montreal':{sig:'Reliability problems are becoming a trust problem.',bars:[['Unpredictable gaps erode trust',34],['Information gaps amplify disruption',27],['Missed transfers change trips',18],['Clear alternatives aid recovery',12]],stats:['1,846','73%','46%']},
+    'San Francisco':{sig:'Safety perception, not price, now drives mode choice.',bars:[['Personal safety on transit',31],['Robotaxi curiosity and doubt',26],['Crowding at peak hours',22],['Fare value vs alternatives',13]],stats:['4,212','68%','52%']},
+    'Toronto':{sig:'Crowding is reframing transit as a last resort.',bars:[['Peak crowding pushes riders away',36],['Service cuts feel permanent',24],['Winter reliability concerns',21],['New lines raise expectations',11]],stats:['3,097','71%','44%']},
+    'Boston':{sig:'Riders forgive delays — but not silence.',bars:[['Communication during disruption',33],['Aging infrastructure worries',28],['Commute time unpredictability',20],['Station experience improving',10]],stats:['2,584','66%','49%']}
+  };
+  var tabs=document.getElementById('tabs'),bars=document.getElementById('bars');
+  function render(n){var c=CITIES[n];
+    document.getElementById('sigText').textContent=c.sig;
+    document.getElementById('d1').textContent=c.stats[0];document.getElementById('d2').textContent=c.stats[1];document.getElementById('d3').textContent=c.stats[2];
+    bars.innerHTML=c.bars.map(function(b){return '<div class="row"><span class="lb">'+b[0]+'</span><span class="tk"><i class="fl"></i></span><span class="pc">'+b[1]+'%</span></div>';}).join('');
+    var mx=c.bars[0][1];
+    requestAnimationFrame(function(){bars.querySelectorAll('.fl').forEach(function(f,i){f.style.width=Math.round(c.bars[i][1]/mx*100)+'%';});});
+    tabs.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.textContent===n);});
+  }
+  if(tabs){Object.keys(CITIES).forEach(function(n){var b=document.createElement('button');b.textContent=n;b.onclick=function(){render(n);};tabs.appendChild(b);});render('Montreal');}
+
+  var cv=document.getElementById('bg');
+  if(cv&&!reduce){var ctx=cv.getContext('2d'),W,H,dpr=Math.min(devicePixelRatio||1,2),pts=[];
+    function rz(){W=cv.offsetWidth;H=cv.offsetHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+      var n=Math.min(78,Math.round(W*H/16000));pts=[];for(var i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.8+.7,t:Math.random()});}
+    rz();addEventListener('resize',rz);
+    (function loop(){ctx.clearRect(0,0,W,H);
+      for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;p.t+=.008;
+        if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+        for(var j=i+1;j<pts.length;j++){var q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=dx*dx+dy*dy;
+          if(d<15000){ctx.strokeStyle='rgba(90,180,220,'+((1-d/15000)*.16)+')';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}}
+      for(var k=0;k<pts.length;k++){var s=pts[k],pl=(Math.sin(s.t)+1)/2;
+        ctx.fillStyle=k%5===0?'rgba(143,219,53,'+(.35+pl*.4)+')':'rgba(120,200,235,'+(.22+pl*.3)+')';
+        ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.283);ctx.fill();}
+      requestAnimationFrame(loop);})();
+  }
+})();
+</script>
+</body>
+</html>

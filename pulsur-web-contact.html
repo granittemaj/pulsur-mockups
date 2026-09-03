@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pulsur — Talk to our team</title>
+<meta name="description" content="Tell us the question you're trying to answer. We'll tell you honestly whether pulsur can answer it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#1a7fa8;--teal-b:#2ba0ce;--green:#7ec827;--green-d:#5e9a1a;
+  --grad:linear-gradient(125deg,#155f80 0%,#1a7fa8 38%,#2ba0ce 64%,#7ec827 120%);
+  --grad-soft:linear-gradient(120deg,#2ba0ce,#7ec827);--r:18px}
+.t-dark{--bg:#070d15;--ink:#eef5fb;--ink2:#aebfce;--ink3:#7d95a8;--border:rgba(255,255,255,.09);--border2:rgba(255,255,255,.17);
+  --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));--sh:0 20px 50px -28px rgba(0,0,0,.9);
+  --accent:#63c6ea;--accent2:#9fe036;background:var(--bg);color:var(--ink2)}
+.t-light{--bg:#f4f8fb;--ink:#0e2133;--ink2:#3c5267;--ink3:#6d879d;--border:#e0eaf1;--border2:#cddeea;
+  --card:#fff;--sh:0 18px 44px -26px rgba(16,34,52,.28);--accent:#1a7fa8;--accent2:#5e9a1a;background:var(--bg);color:var(--ink2)}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Inter',sans-serif;line-height:1.62;-webkit-font-smoothing:antialiased;background:#070d15;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Sora',sans-serif;margin:0;color:var(--ink);line-height:1.14;letter-spacing:-.025em}
+p{margin:0}a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 26px;position:relative;z-index:2}
+section{padding:88px 0}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent2);display:inline-flex;align-items:center;gap:11px}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--accent2);border-radius:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:inherit;font-weight:600;font-size:15px;padding:14px 25px;border-radius:12px;border:1.6px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s,background .25s,border-color .2s;line-height:1}
+.btn-pulse{background:var(--grad);color:#fff;background-size:180% 180%;box-shadow:0 14px 34px -12px rgba(43,160,206,.55)}
+.btn-pulse:hover{transform:translateY(-2px);background-position:100% 0}
+.btn-out{background:transparent;color:var(--accent);border-color:var(--border2)}
+.btn-out:hover{border-color:var(--teal-b)}
+.btn-sm{font-size:13.5px;padding:10px 18px}
+
+.nav{position:sticky;top:0;z-index:70;background:rgba(7,13,21,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.09)}
+.nav-in{max-width:1160px;margin:0 auto;padding:15px 26px;display:flex;align-items:center;gap:26px}
+.brand{display:flex;align-items:center;gap:9px}
+.brand img{height:27px;width:auto;display:block}
+.brand .wm{font-family:'Sora';font-weight:800;font-size:22px;color:#eef5fb;letter-spacing:-.02em}
+.brand .wm b{background:var(--grad-soft);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .pd{width:7px;height:7px;border-radius:50%;background:#7ec827;box-shadow:0 0 0 4px rgba(126,200,39,.16);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(126,200,39,.16)}50%{box-shadow:0 0 0 8px rgba(126,200,39,.02)}}
+.links{display:flex;gap:2px;margin-left:8px}
+.links a{font-size:14px;font-weight:500;color:#aebfce;padding:9px 14px;border-radius:9px}
+.links a:hover{background:rgba(255,255,255,.07);color:#fff}
+.sp{flex:1}
+
+/* hero */
+.hero{position:relative;padding:76px 0 60px;text-align:center;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(1000px 480px at 50% -8%,rgba(43,160,206,.2),transparent 62%)}
+.hero h1{font-size:clamp(32px,5.4vw,54px);font-weight:800;letter-spacing:-.032em;margin:20px auto 0;max-width:18ch;color:#fff}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,#4ec6f0,#8fdb35);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lede{font-size:18px;color:#aebfce;margin:22px auto 0;max-width:56ch;font-weight:300}
+
+/* layout */
+.grid{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;align-items:start}
+.formcard{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:34px;box-shadow:var(--sh)}
+.formcard h3{font-size:21px;margin-bottom:6px}
+.formcard .sub{font-size:14px;color:var(--ink3);margin-bottom:24px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px}
+.fg label .opt{color:var(--ink3);font-weight:400}
+.inp{width:100%;font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1.5px solid var(--border2);border-radius:11px;padding:13px 15px;transition:.18s}
+.inp::placeholder{color:#9db1c2}
+.inp:focus{outline:none;border-color:var(--teal-b);box-shadow:0 0 0 4px rgba(43,160,206,.14)}
+textarea.inp{min-height:120px;resize:vertical;line-height:1.55}
+select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236d879d' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+/* interest chips */
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chips label{position:relative;cursor:pointer}
+.chips input{position:absolute;opacity:0}
+.chips span{display:inline-block;font-size:13.5px;font-weight:600;color:var(--ink2);background:#fff;border:1.5px solid var(--border2);padding:11px 17px;border-radius:11px;transition:.18s}
+.chips input:checked + span{background:var(--grad-soft);color:#0c1a27;border-color:transparent}
+.chips span:hover{border-color:var(--teal-b)}
+.check{display:flex;gap:11px;align-items:flex-start;font-size:13.5px;color:var(--ink2);margin-top:6px;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--teal);margin-top:2px;flex:none}
+.legal{font-size:12.5px;color:var(--ink3);margin-top:16px;line-height:1.6}
+
+/* side */
+.side{display:grid;gap:16px}
+.s{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:var(--sh)}
+.s .k{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2)}
+.s h4{font-size:17px;margin:9px 0 8px}
+.s p{font-size:14px;color:var(--ink3)}
+.s ul{list-style:none;margin:12px 0 0;padding:0}
+.s li{display:flex;gap:11px;padding:8px 0;font-size:14px;color:var(--ink2);border-top:1px solid var(--border)}
+.s li:first-child{border-top:0}
+.s li svg{width:15px;height:15px;flex:none;margin-top:4px;fill:none;stroke-width:2.6;stroke:var(--accent2)}
+.s.dark{background:#0b1522;border-color:transparent}
+.s.dark h4,.s.dark .q{color:#fff}
+.s.dark p{color:#aebfce}
+.s.dark .k{color:#9fe036}
+
+/* success */
+.done{display:none;text-align:center;padding:26px 0}
+.done.on{display:block}
+.okring{width:74px;height:74px;border-radius:50%;margin:0 auto 20px;display:grid;place-items:center;background:rgba(126,200,39,.14);border:1px solid rgba(126,200,39,.4)}
+.okring svg{width:32px;height:32px;stroke:var(--green-d);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+
+footer{padding:56px 0 66px;color:#7d95a8;font-size:13.5px;border-top:1px solid rgba(255,255,255,.09)}
+.fbot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px}
+
+@media (max-width:940px){.grid{grid-template-columns:1fr}.f2{grid-template-columns:1fr}.links{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+  <a class="brand" href="pulsur-web-home.html">
+    <img src="assets/pulsur-logo.png" alt="pulsur" onload="var w=document.getElementById('wm');if(w)w.style.display='none'" onerror="this.remove()">
+    <span class="wm" id="wm">p<b>ulsur</b></span><span class="pd"></span>
+  </a>
+  <div class="links">
+    <a href="pulsur-web-platform.html">Platform</a>
+    <a href="pulsur-web-home.html#how">How it works</a>
+    <a href="pulsur-web-home.html#plans">Plans</a>
+  </div>
+  <span class="sp"></span>
+  <a class="btn btn-pulse btn-sm" href="pulsur-flow-v2.html">Free snapshot →</a>
+</div></nav>
+
+<header class="hero t-dark">
+  <div class="wrap">
+    <h1>Tell us the question you're <em>trying to answer.</em></h1>
+    <p class="lede">We'll tell you honestly whether pulsur can answer it — and which option fits. No pitch deck, no pressure.</p>
+  </div>
+</header>
+
+<section class="t-light" style="padding-top:56px">
+  <div class="wrap">
+    <div class="grid">
+
+      <!-- FORM -->
+      <div class="formcard">
+        <div id="formWrap">
+          <h3>Talk to our team</h3>
+          <div class="sub">We reply within two working days.</div>
+
+          <div class="fg">
+            <label>What are you interested in?</label>
+            <div class="chips">
+              <label><input type="radio" name="int" checked><span>Custom study</span></label>
+              <label><input type="radio" name="int"><span>Platform licence</span></label>
+              <label><input type="radio" name="int"><span>Not sure yet</span></label>
+            </div>
+          </div>
+
+          <div class="f2">
+            <div class="fg"><label>First name</label><input class="inp" placeholder="Henriette"></div>
+            <div class="fg"><label>Last name</label><input class="inp" placeholder="Cornet"></div>
+          </div>
+          <div class="f2">
+            <div class="fg"><label>Work email</label><input class="inp" type="email" placeholder="you@organization.com"></div>
+            <div class="fg"><label>Organization</label><input class="inp" placeholder="City of Montreal"></div>
+          </div>
+          <div class="f2">
+            <div class="fg"><label>Role / job title <span class="opt">— optional</span></label><input class="inp" placeholder="Head of Mobility"></div>
+            <div class="fg">
+              <label>Organization type</label>
+              <select class="inp">
+                <option>Public transit agency / operator</option>
+                <option>Government / regulatory agency</option>
+                <option>Rideshare / fleet / taxi</option>
+                <option>Urban mobility solution provider</option>
+                <option>Autonomous vehicle developer</option>
+                <option>Auto manufacturer / OEM</option>
+                <option>Consulting firm</option>
+                <option>Software / technology provider</option>
+                <option>Education / academia</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="f2">
+            <div class="fg"><label>City / cities of interest</label><input class="inp" placeholder="Montreal, Toronto"></div>
+            <div class="fg"><label>Timeline <span class="opt">— optional</span></label>
+              <select class="inp"><option>Just exploring</option><option>Next 1–3 months</option><option>This quarter</option><option>Urgent</option></select>
+            </div>
+          </div>
+          <div class="fg">
+            <label>What would you like to understand?</label>
+            <textarea class="inp" placeholder="e.g. Why did ridership drop on our east corridor after the schedule change — and is it about reliability or safety?"></textarea>
+          </div>
+
+          <label class="check"><input type="checkbox"> I don't want to receive occasional pulsur updates and research insights.</label>
+          <button class="btn btn-pulse" style="width:100%;margin-top:22px" onclick="submitForm()">Send my enquiry →</button>
+          <p class="legal">By sending this you agree to our privacy policy. We use your details only to respond to this enquiry and, unless you opt out above, to send occasional research insights. You can unsubscribe any time.</p>
+        </div>
+
+        <!-- success -->
+        <div class="done" id="done">
+          <div class="okring"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Thanks — we've got it.</h3>
+          <p style="font-size:15px;color:var(--ink2);margin-top:12px;max-width:44ch;margin-left:auto;margin-right:auto">
+            One of our analysts will reply within two working days. If it's urgent, email us directly at
+            <a href="#" style="color:var(--teal);font-weight:600">hello@pulsur.ai</a>.
+          </p>
+          <a class="btn btn-out" style="margin-top:24px" href="pulsur-flow-v2.html">Meanwhile, try a free snapshot →</a>
+        </div>
+      </div>
+
+      <!-- SIDE -->
+      <div class="side">
+        <div class="s dark">
+          <div class="k">Start free instead</div>
+          <h4>Not ready to talk?</h4>
+          <p>Get a free city snapshot in minutes — no login, no sales call. It's the fastest way to see whether pulsur is useful to you.</p>
+          <a class="btn btn-pulse" style="width:100%;margin-top:18px" href="pulsur-flow-v2.html">Get a free snapshot →</a>
+        </div>
+
+        <div class="s">
+          <div class="k">What happens next</div>
+          <h4>Three steps, no pitch deck</h4>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> We read your question and check our data coverage</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> A 30-minute call to confirm scope and feasibility</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> A written proposal with price and timeline</li>
+          </ul>
+        </div>
+
+        <div class="s">
+          <div class="k">Honest answer</div>
+          <h4>We'll tell you if it won't work</h4>
+          <p>pulsur measures public online conversation. If your question needs representative survey data or operational telemetry, we'll say so — and point you elsewhere.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="t-dark"><footer><div class="wrap">
+  <div class="fbot">
+    <span>© 2026 Urban Innovate · pulsur.ai</span>
+    <span>Insights derive from public online conversations · not statistically representative</span>
+  </div>
+</div></footer></div>
+
+<script>
+function submitForm(){
+  document.getElementById('formWrap').style.display='none';
+  document.getElementById('done').classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
