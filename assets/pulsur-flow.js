@@ -91,7 +91,7 @@
   /* ---------- STAGE ---------- */
   +'<div class="pf-stage">'
   + '<canvas class="pf-cv"></canvas>'
-  + '<div class="pf-brand"><span class="pf-mark">p<b>ulsur</b></span><span class="pf-dot"></span></div>'
+  + '<div class="pf-brand"><img class="pf-logo" src="assets/pulsur-logo.png" alt="pulsur" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline\'"><span class="pf-mark" style="display:none">p<b>ulsur</b></span></div>'
   + '<div class="pf-well">'
   +   '<div class="pf-v on" data-v="listen">'
   +     '<div class="pf-float">'

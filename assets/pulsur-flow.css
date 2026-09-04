@@ -39,8 +39,7 @@
 .pf-brand{display:flex; align-items:center; gap:9px}
 .pf-mark{font-family:'Sora',sans-serif; font-weight:800; font-size:19px; color:var(--ink); letter-spacing:-.02em}
 .pf-mark b{background:var(--soft); -webkit-background-clip:text; background-clip:text; color:transparent}
-.pf-dot{width:7px;height:7px;border-radius:50%; background:#8fdb35; box-shadow:0 0 0 4px rgba(143,219,53,.15); animation:pf-pulse 2.4s infinite}
-@keyframes pf-pulse{0%,100%{box-shadow:0 0 0 3px rgba(143,219,53,.16)}50%{box-shadow:0 0 0 9px rgba(143,219,53,.02)}}
+.pf-logo{height:24px; width:auto; display:block}
 
 /* visual well */
 .pf-well{flex:1; display:grid; place-items:center; position:relative; min-height:0}
